@@ -1,12 +1,6 @@
 package mygames.Maker.entity.mob;
 
-import java.util.ArrayList;
-
-
-import java.util.List;
-
 import mygames.Maker.entity.Entity;
-import mygames.Maker.entity.particle.Particle;
 import mygames.Maker.entity.projectile.Arrow;
 import mygames.Maker.entity.projectile.Projectile;
 import mygames.Maker.graphics.Screen;
@@ -14,9 +8,14 @@ import mygames.Maker.graphics.Sprite;
 
 public abstract class Mob extends Entity{ //Handles a move method for moving mobs
 
-		protected Sprite sprite; //Protected means only this class access's this variable
-		protected int dir = -1;
 		protected boolean moving = false;
+		protected boolean walking = false;
+		
+		protected enum Direction {
+			UP, DOWN, LEFT, RIGHT
+		}
+		
+		protected Direction dir;
 		
 		public void move(int xa, int ya) {
 			if(xa != 0 && ya != 0) { //Process collision separately to slide on walls
@@ -25,10 +24,10 @@ public abstract class Mob extends Entity{ //Handles a move method for moving mob
 				return;
 			}
 			
-			if(xa > 0) dir = 1;
-			if(xa < 0) dir = 3;
-			if(ya > 0) dir = 2;
-			if(ya < 0) dir = 0;
+			if(xa > 0) dir = Direction.RIGHT;
+			if(xa < 0) dir = Direction.LEFT;
+			if(ya > 0) dir = Direction.DOWN;
+			if(ya < 0) dir = Direction.UP;
 
 			if (!collision(xa, ya)) {
 			x += xa;

@@ -2,43 +2,30 @@ package mygames.Maker.entity.mob;
 
 import mygames.Maker.graphics.AnimatedSprite;
 import mygames.Maker.graphics.Screen;
-import mygames.Maker.graphics.Sprite;
 import mygames.Maker.graphics.SpriteSheet;
 
-public class Dummy extends Mob{
-	
-	private boolean walking = false;
+public class Chaser extends Mob{
+
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.dummy_right, 32, 32, 3);
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3);
 	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.dummy_left, 32, 32, 3);
-
-	private int time = 0;
-	private int xa = 0;
-	private int ya = 0;
-	private AnimatedSprite animSprite = down;
 	
-	public Dummy(int x, int y) {
+	private AnimatedSprite animSprite = down;
+	private int xa, ya = 0;
+	
+	public Chaser(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
-		sprite = Sprite.player_forward; //Default dummy sprite upon spawn
 	}
 	
 	public void render(Screen screen) {
-		screen.renderMob(x, y, sprite);
+		sprite = animSprite.getSprite();
+		screen.renderMob(x, y, this);
+		sprite = sprite.player_forward;
 	}
 
 	public void update() {
-		time++;
-		if(time % (random.nextInt(60) + 30) == 0) { //Set an AI to walk in a set interval
-			xa = random.nextInt(3) - 1;
-			ya = random.nextInt(3) - 1;
-			if(random.nextInt(4) == 0) { //stopping
-				xa = 0;
-				ya = 0;
-			}
-		}
-		
 		if(walking) animSprite.update();
 		else animSprite.setFrame(0);
 		if(ya < 0) {
@@ -62,7 +49,6 @@ public class Dummy extends Mob{
 		} else {
 			walking = false;
 		}
-		sprite = animSprite.getSprite();
 	}
 
 }

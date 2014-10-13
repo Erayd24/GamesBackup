@@ -17,10 +17,17 @@ public class SpriteSheet {
 	public static SpriteSheet weapons_armors = new SpriteSheet("/textures/weaponsArmors/weapons1.png", 256);
 	public static SpriteSheet characters = new SpriteSheet("/textures/characters/mainCharacter.png", 256);
 	
+	//Player Sprite sheets for animation
 	public static SpriteSheet player_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);
 	public static SpriteSheet player_right = new SpriteSheet(characters, 1, 5, 1, 3, 32);
 	public static SpriteSheet player_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
 	public static SpriteSheet player_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
+	
+	//NPC Dummy sprite sheets
+	public static SpriteSheet dummy_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);
+	public static SpriteSheet dummy_right = new SpriteSheet(characters, 1, 5, 1, 3, 32);
+	public static SpriteSheet dummy_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
+	public static SpriteSheet dummy_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
 	
 	private Sprite[] sprites;
 	

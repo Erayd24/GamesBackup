@@ -5,8 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import mygames.Maker.entity.mob.Dummy;
-import mygames.Maker.level.tile.Tile;
+import mygames.Maker.entity.mob.Chaser;
 
 public class SpawnLevel extends Level{
 	
@@ -26,7 +25,7 @@ public class SpawnLevel extends Level{
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file!");
 		}
-		add(new Dummy(5, 4));
+		add(new Chaser(5, 4));
 	}
 	
 	protected void generateLevel() { 
