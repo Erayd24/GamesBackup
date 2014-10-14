@@ -36,7 +36,7 @@ public class RandomPath extends Mob{
 				ya = 0;
 			}
 		}
-		
+		 
 		if(xa != 0 || ya != 0) {
 			move(xa, ya);
 			walking = true;
