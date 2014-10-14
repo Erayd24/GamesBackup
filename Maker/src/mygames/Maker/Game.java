@@ -12,12 +12,9 @@ import javax.swing.JFrame;
 
 import mygames.Maker.entity.mob.Player;
 import mygames.Maker.graphics.Screen;
-import mygames.Maker.graphics.Sprite;
 import mygames.Maker.input.Keyboard;
 import mygames.Maker.input.Mouse;
 import mygames.Maker.level.Level;
-import mygames.Maker.level.RandomLevel;
-import mygames.Maker.level.SpawnLevel;
 import mygames.Maker.level.TileCoordinate;
 
 public class Game extends Canvas implements Runnable {
@@ -139,9 +136,9 @@ public class Game extends Canvas implements Runnable {
 		
 		//clean the screen each time something is rendered
 		screen.clear();
-		int xScroll = player.getX() - screen.width / 2;
-		int yScroll = player.getY() - screen.height / 2;
-		level.render(xScroll, yScroll, screen);
+		double xScroll = player.getX() - screen.width / 2;
+		double yScroll = player.getY() - screen.height / 2;
+		level.render((int)xScroll, (int)yScroll, screen);
 		
 		//Sprite sprite = new Sprite(2, 2, 0xffff00ff); //Allows for on screen graphics that move with player, or particles
 		//screen.renderSprite(0, 0, sprite, false); //This can also be used with a for loop, math.random, with an x and y random to make rain

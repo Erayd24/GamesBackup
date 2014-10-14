@@ -1,7 +1,6 @@
 package mygames.Maker.entity.projectile;
 
 import mygames.Maker.entity.spawner.ParticleSpawner;
-import mygames.Maker.entity.spawner.Spawner;
 import mygames.Maker.graphics.Screen;
 import mygames.Maker.graphics.Sprite;
 
@@ -9,7 +8,7 @@ public class Arrow extends Projectile {
 
 	public static final int rateOfFire = 25; //The higher the slower
 	
-	public Arrow(int x, int y, double dir) {
+	public Arrow(double x, double y, double dir) {
 		super(x, y, dir);
 		range = 200;
 		speed = 2;

@@ -7,7 +7,7 @@ import mygames.Maker.graphics.Sprite;
 
 public abstract class Projectile extends Entity{
 	
-	final protected int xOrigin, yOrigin;
+	final protected double xOrigin, yOrigin;
 	protected double angle;
 	protected Sprite sprite;
 	protected double x, y;
@@ -17,7 +17,7 @@ public abstract class Projectile extends Entity{
 	
 	protected final Random random = new Random();
 	
-	public Projectile(int x, int y, double dir) {
+	public Projectile(double x, double y, double dir) {
 		xOrigin = x;
 		yOrigin = y;
 		angle = dir;

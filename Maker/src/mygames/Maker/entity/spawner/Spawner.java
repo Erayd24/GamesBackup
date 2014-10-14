@@ -1,7 +1,6 @@
 package mygames.Maker.entity.spawner;
 
 import mygames.Maker.entity.Entity;
-import mygames.Maker.entity.particle.Particle;
 import mygames.Maker.level.Level;
 
 public abstract class Spawner extends Entity{

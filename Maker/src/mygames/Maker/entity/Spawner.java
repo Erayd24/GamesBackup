@@ -1,8 +1,5 @@
 package mygames.Maker.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mygames.Maker.entity.particle.Particle;
 import mygames.Maker.level.Level;
 
