@@ -48,6 +48,7 @@ public class Player extends Mob{
 		}
 		
 		public void update() { //Player movement input
+			
 			if(walking) animSprite.update();
 			else animSprite.setFrame(0);
 			

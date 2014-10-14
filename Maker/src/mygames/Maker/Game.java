@@ -48,9 +48,9 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		key = new Keyboard();
 		level = level.spawn;
-		TileCoordinate playerSpawn = new TileCoordinate(5, 5); //Player spawn location
+		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); //Add a player character and adjust spawn location
-		player.init(level);
+		level.add(player);
 		
 		addKeyListener(key);
 		
@@ -125,7 +125,6 @@ public class Game extends Canvas implements Runnable {
 	//Update the game 60 times a second by for example, moving the player forward
 	public void update() {
 		key.update();
-		player.update();
 		level.update();
 	} //end update
 	
@@ -140,10 +139,9 @@ public class Game extends Canvas implements Runnable {
 		
 		//clean the screen each time something is rendered
 		screen.clear();
-		int xScroll = player.x - screen.width / 2;
-		int yScroll = player.y - screen.height / 2;
+		int xScroll = player.getX() - screen.width / 2;
+		int yScroll = player.getY() - screen.height / 2;
 		level.render(xScroll, yScroll, screen);
-		player.render(screen);
 		
 		//Sprite sprite = new Sprite(2, 2, 0xffff00ff); //Allows for on screen graphics that move with player, or particles
 		//screen.renderSprite(0, 0, sprite, false); //This can also be used with a for loop, math.random, with an x and y random to make rain
