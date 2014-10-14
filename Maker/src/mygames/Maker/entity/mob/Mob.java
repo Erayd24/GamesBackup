@@ -64,7 +64,6 @@ public abstract class Mob extends Entity{ //Handles a move method for moving mob
 		}
 		
 		protected void shoot(double x, double y, double dir) {
-			//dir *= (180 / Math.PI);
 			Projectile p = new Arrow(x, y, dir);
 			level.add(p);
 		}

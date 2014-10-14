@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 
 import mygames.Maker.entity.mob.Chaser;
 import mygames.Maker.entity.mob.Follower;
+import mygames.Maker.entity.mob.RandomPath;
+import mygames.Maker.entity.mob.Shooter;
 
 public class SpawnLevel extends Level{
 	
@@ -28,6 +30,8 @@ public class SpawnLevel extends Level{
 		}
 		add(new Chaser(6, 4));
 		add(new Follower(8, 8));
+		add(new Shooter(9, 8));
+		add(new RandomPath( 4, 3));
 	}
 	
 	protected void generateLevel() { 

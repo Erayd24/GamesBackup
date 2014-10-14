@@ -8,14 +8,14 @@ import mygames.Maker.graphics.SpriteSheet;
 
 public class Chaser extends Mob{
 
-	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
-	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.dummy_right, 32, 32, 3);
-	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3);
-	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.dummy_left, 32, 32, 3);
+	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.Chaser_up, 32, 32, 3);
+	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.Chaser_right, 32, 32, 3);
+	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.Chaser_down, 32, 32, 3);
+	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.Chaser_left, 32, 32, 3);
 	
 	private AnimatedSprite animSprite = down;
 	private int xa, ya = 0;
-	private double speed = 0.7;
+	private double speed = 1;
 	
 	public Chaser(int x, int y) {
 		this.x = x << 4;
@@ -24,7 +24,7 @@ public class Chaser extends Mob{
 	
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
-		screen.renderMob((int) (x - 16), (int)(y - 16), this);
+		screen.renderMob(x - 16, y - 16, this);
 	}
 
 	private void move() {

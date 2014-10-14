@@ -23,11 +23,29 @@ public class SpriteSheet {
 	public static SpriteSheet player_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
 	public static SpriteSheet player_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
 	
-	//NPC Dummy sprite sheets
-	public static SpriteSheet dummy_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);
-	public static SpriteSheet dummy_right = new SpriteSheet(characters, 1, 5, 1, 3, 32);
-	public static SpriteSheet dummy_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
-	public static SpriteSheet dummy_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
+	//RandomPath NPC sprite sheets
+	public static SpriteSheet RandomPath_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);
+	public static SpriteSheet RandomPath_right = new SpriteSheet(characters, 1, 5, 1, 3, 32);
+	public static SpriteSheet RandomPath_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
+	public static SpriteSheet RandomPath_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
+	
+	//Follower NPC/enemy sprite sheets
+	public static SpriteSheet Follower_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);
+	public static SpriteSheet Follower_right = new SpriteSheet(characters, 1, 5, 1, 3, 32);
+	public static SpriteSheet Follower_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
+	public static SpriteSheet Follower_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
+	
+	//Chaser NPC/enemy sprite sheets
+	public static SpriteSheet Chaser_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);
+	public static SpriteSheet Chaser_right = new SpriteSheet(characters, 1, 5, 1, 3, 32);
+	public static SpriteSheet Chaser_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
+	public static SpriteSheet Chaser_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
+	
+	//Shooter NPC/enemy sprite sheets
+	public static SpriteSheet Shooter_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);
+	public static SpriteSheet Shooter_right = new SpriteSheet(characters, 1, 5, 1, 3, 32);
+	public static SpriteSheet Shooter_down = new SpriteSheet(characters, 2, 5, 1, 3, 32);
+	public static SpriteSheet Shooter_left = new SpriteSheet(characters, 3, 5, 1, 3, 32);
 	
 	private Sprite[] sprites;
 	

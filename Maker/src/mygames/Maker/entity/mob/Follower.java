@@ -10,10 +10,10 @@ import mygames.Maker.level.Node;
 
 public class Follower extends Mob{
 
-	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
-	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.dummy_right, 32, 32, 3);
-	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3);
-	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.dummy_left, 32, 32, 3);
+	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.Follower_up, 32, 32, 3);
+	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.Follower_right, 32, 32, 3);
+	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.Follower_down, 32, 32, 3);
+	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.Follower_left, 32, 32, 3);
 	
 	private AnimatedSprite animSprite = down;
 	private int xa, ya = 0;
@@ -28,15 +28,15 @@ public class Follower extends Mob{
 	
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
-		screen.renderMob((int) (x - 16), (int)(y - 16), this);
+		screen.renderMob(x - 16, y - 16, this);
 	}
 
 	private void move() {
 		xa = 0;
 		ya = 0;
-		int px = level.getPlayerAt(0).getX();
-		int py = level.getPlayerAt(0).getY();
-		Vector2i start = new Vector2i(getX() >> 4, getY() >> 4);
+		int px = (int)level.getPlayerAt(0).getX();
+		int py = (int)level.getPlayerAt(0).getY();
+		Vector2i start = new Vector2i((int)getX() >> 4, (int)getY() >> 4);
 		Vector2i destination = new Vector2i(px >> 4, py >> 4);
 		if(time % 3 == 0) path = level.findPath(start, destination); //Run search alg. 20 times per second
 		if(path != null) {
