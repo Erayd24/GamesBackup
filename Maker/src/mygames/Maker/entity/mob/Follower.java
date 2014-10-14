@@ -2,11 +2,13 @@ package mygames.Maker.entity.mob;
 
 import java.util.List;
 
+import mygames.Maker.entity.util.Vector2i;
 import mygames.Maker.graphics.AnimatedSprite;
 import mygames.Maker.graphics.Screen;
 import mygames.Maker.graphics.SpriteSheet;
+import mygames.Maker.level.Node;
 
-public class Chaser extends Mob{
+public class Follower extends Mob{
 
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.dummy_right, 32, 32, 3);
@@ -15,9 +17,11 @@ public class Chaser extends Mob{
 	
 	private AnimatedSprite animSprite = down;
 	private int xa, ya = 0;
-	private double speed = 0.7;
+	private double speed = 1;
+	private List<Node> path = null;
+	private int time = 0;
 	
-	public Chaser(int x, int y) {
+	public Follower(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
 	}
@@ -30,14 +34,20 @@ public class Chaser extends Mob{
 	private void move() {
 		xa = 0;
 		ya = 0;
-		List<Player> players = level.getPlayers(this, 60);
-		if(players.size() > 0) {
-		Player player = players.get(0);
-			if(x < player.getX()) xa += speed;
-			if(x > player.getX()) xa -= speed;
-			if(y < player.getY()) ya += speed;
-			if(y > player.getY()) ya -= speed;
-		}
+		int px = level.getPlayerAt(0).getX();
+		int py = level.getPlayerAt(0).getY();
+		Vector2i start = new Vector2i(getX() >> 4, getY() >> 4);
+		Vector2i destination = new Vector2i(px >> 4, py >> 4);
+		if(time % 3 == 0) path = level.findPath(start, destination); //Run search alg. 20 times per second
+		if(path != null) {
+			if(path.size() > 0) {
+				Vector2i vec = path.get(path.size() - 1).tile; //To get correct side of the list of nodes
+				if(x < vec.getX() << 4) xa += speed;
+				if(x > vec.getX() << 4) xa -= speed;
+				if(y < vec.getY() << 4) ya += speed;
+				if(y > vec.getY() << 4) ya -= speed;
+			}
+		} //an else here will set a seperate AI
 		
 		if(xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -48,6 +58,7 @@ public class Chaser extends Mob{
 	}
 	
 	public void update() {
+		time++;
 		move();
 		if(walking) animSprite.update();
 		else animSprite.setFrame(0);

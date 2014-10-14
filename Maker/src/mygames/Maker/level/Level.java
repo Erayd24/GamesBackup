@@ -1,12 +1,15 @@
 package mygames.Maker.level;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import mygames.Maker.entity.Entity;
 import mygames.Maker.entity.mob.Player;
 import mygames.Maker.entity.particle.Particle;
 import mygames.Maker.entity.projectile.Projectile;
+import mygames.Maker.entity.util.Vector2i;
 import mygames.Maker.graphics.Screen;
 import mygames.Maker.level.tile.Tile;
 
@@ -21,6 +24,14 @@ public class Level {
 	private List<Particle> particles = new ArrayList<Particle>();
 	
 	private List<Player> players = new ArrayList<Player>();
+	
+	private Comparator<Node> nodeSorter = new Comparator<Node>() { //Sorting nodes by fCost or total cost
+		public int compare(Node n0, Node n1) {
+			if(n1.fCost < n0.fCost)return 1; 
+			if(n1.fCost > n0.fCost)return -1; 
+			return 0;
+		}
+	};
 	
 	public static Level spawn = new SpawnLevel("/levels/spawnlevel.png");
 	
@@ -142,6 +153,63 @@ public class Level {
 	
 	public Player getClientPlayer() {
 		return players.get(0);
+	}
+	
+	//A* search algorithm for path finding
+	public List<Node> findPath(Vector2i start, Vector2i goal) {
+		 List<Node> openList = new ArrayList<Node>();
+		 List<Node> closedList = new ArrayList<Node>();
+		 Node current = new Node(start, null, 0, getDistance(start, goal));
+		 openList.add(current);
+		 
+		 while(openList.size() > 0) {
+			 Collections.sort(openList, nodeSorter); //Java class that sorts lists
+			 current = openList.get(0);
+			 if(current.tile.equals(goal)) {
+				 List<Node> path = new ArrayList<Node>();
+				 while(current.parent != null) { //Parent only null on start
+					 path.add(current);
+					 current = current.parent;
+				 }
+				 openList.clear();
+				 closedList.clear();
+				 return path;
+			 }
+			 openList.remove(current);
+			 closedList.add(current);
+			 
+			 for(int i = 0; i < 9; i++) {
+				 if(i == 4) continue; //where the player would be
+				 int x = current.tile.getX();
+				 int y = current.tile.getY();
+				 int xi = (i % 3) - 1; //-1, 0, 1
+				 int yi = (i / 3) - 1; //These are the value around
+				 Tile at = getTile(x + xi, y + yi); //Sets the tile being looked at to this tile
+				 if(at == null) continue; //Out of map 
+				 if(at.solid()) continue; //Wall
+				 Vector2i a = new Vector2i(x + xi, y + yi);
+				 double gCost = current.gCost + (getDistance(current.tile, a) == 1 ? 1 : 0.95); //These two doubles can be tweaked to get desired results on path
+				 double hCost = getDistance(a, goal);
+				 Node node = new Node(a, current, gCost, hCost);
+				 if(vecInList(closedList, a) && gCost >= node.gCost) continue;
+				 if(!vecInList(openList, a) || gCost < node.gCost) openList.add(node);
+			 } //end for
+		 } //end while
+		 closedList.clear();
+		 return null; //if no path was found
+	} //end method
+	
+	private boolean vecInList(List<Node> list, Vector2i vector) {
+		for(Node n : list) {
+			if(n.tile.equals(vector)) return true;
+		}
+		return false;
+	}
+	
+	private double getDistance(Vector2i tile, Vector2i goal) {
+		double dx = tile.getX() - goal.getX();
+		double dy = tile.getY() - goal.getY();
+		return Math.sqrt((dx * dx) + (dy * dy));
 	}
 	
 	public List<Entity> getEntities(Entity e, int radius) { //Return all entities

@@ -6,7 +6,6 @@ import mygames.Maker.graphics.Sprite;
 public class Tile {
 
 	//Use this class to add sprites in to tile 
-		public int x,y;
 		public Sprite sprite;
 		
 		public static Tile grass = new GrassTile(Sprite.grass);

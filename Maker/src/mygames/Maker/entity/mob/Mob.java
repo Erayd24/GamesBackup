@@ -72,8 +72,8 @@ public abstract class Mob extends Entity{ //Handles a move method for moving mob
 		private boolean collision(double xa, double ya) { //Collision detection
 			boolean solid = false;
 			for(int c = 0; c < 4; c++) {
-				double xt = ((x + xa) - c % 2 * 16) / 16;
-				double yt = ((y + ya) - c / 2 * 16) / 16; //y direction
+				double xt = ((x + xa) - c % 2 * 15) / 16;
+				double yt = ((y + ya) - c / 2 * 15) / 16; //y direction
 				int ix = (int) Math.ceil(xt); //left
 				int iy = (int) Math.ceil(yt); //up
 				if(c % 2 == 0) ix = (int) Math.floor(xt); //right

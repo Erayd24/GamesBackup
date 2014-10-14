@@ -9,7 +9,7 @@ import mygames.Maker.level.Level;
 public class Entity {
 
 	//Things that move or "exist" or are interactable
-		protected double x, y;
+		protected int x, y;
 		protected Sprite sprite;
 		private boolean removed = false;
 		protected Level level;
@@ -27,11 +27,11 @@ public class Entity {
 			removed = true;
 		}
 		
-		public double getX() {
+		public int getX() {
 			return x;
 		}
 		
-		public double getY() {
+		public int getY() {
 			return y;
 		}
 		
