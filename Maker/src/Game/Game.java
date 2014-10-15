@@ -10,8 +10,8 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import Game.entity.mob.Player;
-import Game.graphics.InGameMenu;
 import Game.graphics.Screen;
+import Game.graphics.menus.InGameMenu;
 import Game.input.Keyboard;
 import Game.input.Mouse;
 import Game.level.Level;
@@ -32,7 +32,7 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private boolean running = false;
 	private Screen screen;
-	private InGameMenu menu;
+	private InGameMenu inGamemenu;
 	private STATE State = STATE.GAME;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); 
 		level.add(player);
 		
-		menu = new InGameMenu();
+		inGamemenu = new InGameMenu();
 		
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
@@ -139,8 +139,8 @@ public class Game extends Canvas implements Runnable {
 			double yScroll = player.getY() - screen.height / 2;
 			level.render((int)xScroll, (int)yScroll, screen);
 			//g.drawImage(background, 0, 0, this);
-		} else if(State == STATE.MENU) {
-			menu.render(g);
+		} else if(State == STATE.INGAMEMENU) {
+			inGamemenu.render(screen);
 			//g.drawImage(background, 0, 0, this);
 		}
 		
