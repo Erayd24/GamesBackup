@@ -22,19 +22,12 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Particle> particles = new ArrayList<Particle>();
-	
 	private List<Player> players = new ArrayList<Player>();
 	
-	private Comparator<Node> nodeSorter = new Comparator<Node>() { //Sorting nodes by fCost or total cost
-		public int compare(Node n0, Node n1) {
-			if(n1.fCost < n0.fCost)return 1; 
-			if(n1.fCost > n0.fCost)return -1; 
-			return 0;
-		}
-	};
-	
+	//Levels
 	public static Level spawn = new SpawnLevel("/levels/spawnlevel.png");
 	
+	//Constructor
 	public Level(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -42,22 +35,30 @@ public class Level {
 		generateLevel();
 	}
 	
+	//Constructor
 	public Level (String path) {
 		loadLevel(path);
 		generateLevel();
-	} //Use this to load a pre-made level map
+	}
+	
+	private Comparator<Node> nodeSorter = new Comparator<Node>() {
+		public int compare(Node n0, Node n1) {
+			if(n1.fCost < n0.fCost)return 1; 
+			if(n1.fCost > n0.fCost)return -1; 
+			return 0;
+		}
+	};
 	
 	protected void generateLevel() {
-		
 	}
 	
 	protected void loadLevel(String path) {
-		
 	}
 	
+	//Update all entities in the map
 	public void update() {
 		for(int i = 0; i < entities.size(); i++){
-		entities.get(i).update();
+			entities.get(i).update();
 		}
 		for(int i = 0; i < projectiles.size(); i++){
 			projectiles.get(i).update();
@@ -71,6 +72,7 @@ public class Level {
 		remove();
 	}
 	
+	//Remove all used up entities from their lists
 	private void remove() {
 		for(int i = 0; i < entities.size(); i++){
 			if(entities.get(i).isRemoved()) entities.remove(i);
@@ -86,14 +88,10 @@ public class Level {
 		}
 	}
 	
-	public List<Projectile> getProjectiles() {
-		return projectiles;
-	}
-	
 	private void time() {
-		
 	}
 	
+	//Return a tile to be collided with if declared solid
 	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
 		boolean solid = false;
 		for(int c = 0; c < 4; c++) {
@@ -104,17 +102,20 @@ public class Level {
 		return solid;
 	}
 	
-	public void render(int xScroll, int yScroll, Screen screen) { //Use this to render levels
+	//Use this to render levels
+	public void render(int xScroll, int yScroll, Screen screen) {
 		screen.setOffset(xScroll,  yScroll);
-		int x0 = xScroll >> 4; //same as divided by 16 Left side of screen
+		int x0 = xScroll >> 4; //Left side of screen
 		int x1 = (xScroll + screen.width + 16) >>  4;//Right side of the screen
 		int y0 = yScroll >> 4; //Top edge of screen
 		int y1 = (yScroll + screen.height + 16) >> 4; //Bottom edge of screen
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
-				getTile(x,y).render(x , y, screen); //For Random Generating
-			} //end for x loop
-		} //end for y loop
+				getTile(x, y).render(x, y, screen); //For Random Generating
+			}
+		}
+		
+		//Render all moving things
 		for(int i = 0; i < entities.size(); i++){
 			entities.get(i).render(screen);
 		}
@@ -127,14 +128,15 @@ public class Level {
 		for(int i = 0; i < players.size(); i++){
 			players.get(i).render(screen);
 		}
-	} //end render
+	}
 	
+	//Add types of Entities to their lists
 	public void add(Entity e) {
 		e.init(this);
 		if(e instanceof Particle) {
-			particles.add((Particle)e);
+			particles.add((Particle) e);
 		} else if( e instanceof Projectile) {
-			projectiles.add((Projectile)e);
+			projectiles.add((Projectile) e);
 		} else if(e instanceof Player) {
 			players.add((Player) e);
 		} else {
@@ -142,20 +144,22 @@ public class Level {
 		}
 	}
 	
-	
+	//Return all players in the world at that time 
 	public List<Player> getPlayers() {
 		return players;
 	}
 	
+	//For multiplayer
 	public Player getPlayerAt(int index) {
 		return players.get(index);
 	}
 	
+	//Gets player on the user's machine
 	public Player getClientPlayer() {
 		return players.get(0);
 	}
 	
-	//A* search algorithm for path finding
+	//A* search algorithm for path finding Mobs
 	public List<Node> findPath(Vector2i start, Vector2i goal) {
 		 List<Node> openList = new ArrayList<Node>();
 		 List<Node> closedList = new ArrayList<Node>();
@@ -167,7 +171,7 @@ public class Level {
 			 current = openList.get(0);
 			 if(current.tile.equals(goal)) {
 				 List<Node> path = new ArrayList<Node>();
-				 while(current.parent != null) { //Parent only null on start
+				 while(current.parent != null) {
 					 path.add(current);
 					 current = current.parent;
 				 }
@@ -183,12 +187,12 @@ public class Level {
 				 int x = current.tile.getX();
 				 int y = current.tile.getY();
 				 int xi = (i % 3) - 1; //-1, 0, 1
-				 int yi = (i / 3) - 1; //These are the value around
+				 int yi = (i / 3) - 1; 
 				 Tile at = getTile(x + xi, y + yi); //Sets the tile being looked at to this tile
 				 if(at == null) continue; //Out of map 
 				 if(at.solid()) continue; //Wall
 				 Vector2i a = new Vector2i(x + xi, y + yi);
-				 double gCost = current.gCost + (getDistance(current.tile, a) == 1 ? 1 : 0.95); //These two doubles can be tweaked to get desired results on path
+				 double gCost = current.gCost + (getDistance(current.tile, a) == 1 ? 1 : 0.95);
 				 double hCost = getDistance(a, goal);
 				 Node node = new Node(a, current, gCost, hCost);
 				 if(vecInList(closedList, a) && gCost >= node.gCost) continue;
@@ -197,8 +201,9 @@ public class Level {
 		 } //end while
 		 closedList.clear();
 		 return null; //if no path was found
-	} //end method
+	} //end findPath
 	
+	//Returns true if the vector is in the list
 	private boolean vecInList(List<Node> list, Vector2i vector) {
 		for(Node n : list) {
 			if(n.tile.equals(vector)) return true;
@@ -206,13 +211,15 @@ public class Level {
 		return false;
 	}
 	
+	//Distance formula to get distance between two vectors
 	private double getDistance(Vector2i tile, Vector2i goal) {
 		double dx = tile.getX() - goal.getX();
 		double dy = tile.getY() - goal.getY();
 		return Math.sqrt((dx * dx) + (dy * dy));
 	}
 	
-	public List<Entity> getEntities(Entity e, int radius) { //Return all entities
+	//Return a list of entities within a radius
+	public List<Entity> getEntities(Entity e, int radius) {
 		List<Entity> result = new ArrayList<Entity>();
 		int ex = (int) e.getX();
 		int ey = (int) e.getY();
@@ -221,14 +228,13 @@ public class Level {
 			Entity entity = entities.get(i);
 			int x = (int) entity.getX();
 			int y = (int) entity.getY();
-			int dx = Math.abs(x - ex);
-			int dy = Math.abs(y - ey);
-			double distance = Math.sqrt((dx * dx) + (dy * dy));
+			double distance = Math.sqrt(((x - ex) * (x - ex)) + ((y - ey) * (y - ey)));
 			if(distance <= radius) result.add(entity);
 		}
 		return result;
 	}
 	
+	//Return a list of players within a radius
 	public List<Player> getPlayers(Entity e, int radius) {
 		List<Player> result = new ArrayList<Player>();
 		int ex = (int) e.getX();
@@ -238,24 +244,23 @@ public class Level {
 			Player player = players.get(i);
 			int x = (int) player.getX();
 			int y = (int) player.getY();
-			int dx = x - ex;
-			int dy = y - ey;
-			double distance = Math.sqrt((dx * dx) + (dy * dy));
+			double distance = Math.sqrt(((x - ex) * (x - ex)) + ((y - ey) * (y - ey)));
 			if(distance <= radius) result.add(player);
 		}
 		return result;
 	}
+
+	//Return the list of projectiles in the projectiles list currently
+	public List<Projectile> getProjectiles() {
+		return projectiles;
+	}
 	
-	//Grass = 0xff00ff00
-	//Flower = 0xffffff00
-	//Rock = 0xff7f7f00
-	//Brick Wall = 0xff7f0000
-	public Tile getTile(int x, int y) { //Run this under render above which takes in these tiles
-		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile; //The boundaries
+	public Tile getTile(int x, int y) {
+		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
 		if (tiles[x + y * width] == Tile.col_grass) return Tile.grass; 
 		if (tiles[x + y * width] == Tile.col_flower) return Tile.flower; 
 		if (tiles[x + y * width] == Tile.col_rock) return Tile.rock; 
 		if (tiles[x + y * width] == Tile.col_wallBrick) return Tile.wallBrick; 
-		return Tile.voidTile; //A black tile
+		return Tile.voidTile;
 	}
 }
