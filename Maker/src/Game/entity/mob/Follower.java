@@ -2,11 +2,11 @@ package Game.entity.mob;
 
 import java.util.List;
 
-import Game.entity.util.Vector2i;
 import Game.graphics.AnimatedSprite;
 import Game.graphics.Screen;
 import Game.graphics.SpriteSheet;
 import Game.level.Node;
+import Game.util.Vector2i;
 
 public class Follower extends Mob{
 

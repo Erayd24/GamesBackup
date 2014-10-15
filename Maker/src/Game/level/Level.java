@@ -9,9 +9,9 @@ import Game.entity.Entity;
 import Game.entity.mob.Player;
 import Game.entity.particle.Particle;
 import Game.entity.projectile.Projectile;
-import Game.entity.util.Vector2i;
 import Game.graphics.Screen;
 import Game.level.tile.Tile;
+import Game.util.Vector2i;
 
 public class Level {
 
@@ -226,6 +226,7 @@ public class Level {
 		
 		for(int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
+			if(entity.equals(e)) continue;
 			int x = (int) entity.getX();
 			int y = (int) entity.getY();
 			double distance = Math.sqrt(((x - ex) * (x - ex)) + ((y - ey) * (y - ey)));

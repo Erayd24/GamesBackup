@@ -1,8 +1,12 @@
 package Game.entity.mob;
 
+import java.util.List;
+
+import Game.entity.Entity;
 import Game.graphics.AnimatedSprite;
 import Game.graphics.Screen;
 import Game.graphics.SpriteSheet;
+import Game.util.Vector2i;
 
 public class Shooter extends Mob {
 	
@@ -45,9 +49,24 @@ public class Shooter extends Mob {
 	}
 	
 	public void update() {
-		Player p = level.getClientPlayer();
-		double angle = Math.atan2((p.getY() - y), (p.getX() - x)); //direction of fire
-		if(time % 60 == 0) shoot(x + 16, y + 16, angle);
+		List<Player> players = level.getPlayers(this, 100);
+		players.add(level.getClientPlayer());
+		
+		double min = 0;
+		Entity closest = null;
+		for(int i = 0; i < players.size(); i++) {
+			Entity e = players.get(i);
+			double distance = Vector2i.getDistance(new Vector2i(x, y), new Vector2i(e.getX(), e.getY()));
+			if(i == 0 || distance < min) {
+				min = distance;
+				closest = e;
+			}
+		}
+		
+		if(closest != null) {
+			double angle = Math.atan2((closest.getY() - y), (closest.getX() - x)); //direction of fire
+			if(time % 60 == 0) shoot(x, y + 16, angle);
+		}
 		
 		time++;
 		move();

@@ -1,6 +1,6 @@
 package Game.level;
 
-import Game.entity.util.Vector2i;
+import Game.util.Vector2i;
 
 public class Node {
 
