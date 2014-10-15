@@ -2,5 +2,6 @@ package Game;
 
 public enum STATE {
 	MENU,
-	GAME
+	GAME,
+	TITLE
 };

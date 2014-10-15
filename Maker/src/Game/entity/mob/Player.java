@@ -39,7 +39,7 @@ public class Player extends Mob{
 
 		public Player(int x, int y, Keyboard input) {
 			this.x = x;
-			this.y = y; //Goes back to Entity Super class
+			this.y = y; 
 			this.input = input;
 			sprite = Sprite.player_forward;
 			frameRate();
@@ -85,10 +85,10 @@ public class Player extends Mob{
 			}
 		}
 
-		private void updateShooting() { //shooting projectiles from the player(Possible item?)
+		private void updateShooting() { 
 			if(Mouse.getButton() == 1 && fireRate <= 0) {
-				double dx = Mouse.getX() - Game.getWindowWidth() /2;
-				double dy = Mouse.getY() - Game.getWindowHeight() /2;
+				double dx = Mouse.getX() - Game.getWindowWidth() / 2;
+				double dy = Mouse.getY() - Game.getWindowHeight() / 2;
 				double dir = Math.atan2(dy, dx);
 				shoot(x, y, dir);
 				fireRate = Arrow.rateOfFire;
