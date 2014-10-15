@@ -1,7 +1,6 @@
 package Game;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -11,6 +10,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import Game.entity.mob.Player;
+import Game.graphics.InGameMenu;
 import Game.graphics.Screen;
 import Game.input.Keyboard;
 import Game.input.Mouse;
@@ -32,10 +32,13 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private boolean running = false;
 	private Screen screen;
+	private InGameMenu menu;
+	private STATE State = STATE.GAME;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-		
+	
+			
 	//set the screen size for your game
 	public Game() {
 		Dimension size = new Dimension(width*scale, height*scale);
@@ -48,6 +51,8 @@ public class Game extends Canvas implements Runnable {
 		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); //Add a player character and adjust spawn location
 		level.add(player);
+		
+		menu = new InGameMenu();
 		
 		addKeyListener(key);
 		
@@ -119,47 +124,41 @@ public class Game extends Canvas implements Runnable {
 		} //end running while
 	} //end run
 	
-	//Update the game 60 times a second by for example, moving the player forward
+	//Update the game 60 times a second
 	public void update() {
-		key.update();
-		level.update();
+		if(State == STATE.GAME) {
+			key.update();
+			level.update();
+		}
 	} //end update
 	
-	//set a buffer strategy to render the game as much as possible, graphics are drawn here
 	public void render() {
-		//creating a buffer strategy with 3 layers
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(3);
 			return;
-		} //end bufferstrategy if
+		} 
+		Graphics g = bs.getDrawGraphics();
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 		
-		//clean the screen each time something is rendered
 		screen.clear();
-		double xScroll = player.getX() - screen.width / 2;
-		double yScroll = player.getY() - screen.height / 2;
-		level.render((int)xScroll, (int)yScroll, screen);
-		
-		//Sprite sprite = new Sprite(2, 2, 0xffff00ff); //Allows for on screen graphics that move with player, or particles
-		//screen.renderSprite(0, 0, sprite, false); //This can also be used with a for loop, math.random, with an x and y random to make rain
-		
+		if(State == STATE.GAME) { //Game state
+			double xScroll = player.getX() - screen.width / 2;
+			double yScroll = player.getY() - screen.height / 2;
+			level.render((int)xScroll, (int)yScroll, screen);
+			//g.drawImage(background, 0, 0, this);
+		} else if(State == STATE.GAME) { //Menu state
+			menu.render(g);
+			//g.drawImage(background, 0, 0, this);
+			
+		}
 		
 		//obtain the pixels which will be changed
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
-		} //end pixel for
-		
-		//get the method which draws on the screen
-		Graphics g = bs.getDrawGraphics();
-		{
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, getWidth(), getHeight());	
-			g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-			//g.fillRect(Mouse.getX() - 32, Mouse.getY() - 32, 64, 64);
-		} //end graphics code block
+		} 
 		
 		g.dispose();
-		//show what was made to the user
 		bs.show();
 	} //end render
 	

@@ -5,7 +5,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Game.entity.mob.Chaser;
+import Game.entity.mob.Follower;
 import Game.entity.mob.RandomPath;
+import Game.entity.mob.Shooter;
 
 public class SpawnLevel extends Level{
 	
@@ -25,9 +28,9 @@ public class SpawnLevel extends Level{
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file!");
 		}
-		//add(new Chaser(6, 4));
-		//add(new Follower(8, 8));
-		//add(new Shooter(9, 8));
+		add(new Chaser(6, 4));
+		add(new Follower(8, 8));
+		add(new Shooter(9, 8));
 		add(new RandomPath( 4, 3));
 	}
 	
