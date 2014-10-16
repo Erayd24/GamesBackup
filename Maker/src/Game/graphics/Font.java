@@ -7,7 +7,7 @@ public class Font {
 	private static SpriteSheet font = new SpriteSheet("/fonts/customFont.png", 208, 112, 16);
 	private static Sprite[] characters = Sprite.split(font);
 	
-	private static String charIndex = "ABCDEFGHIJKLM" + "NOPQRSTUVWXYZ" + "abcdefghijklm" + "nopqrstuvwxyz" + "0123456789.,'" + "'\"\";:!@$%()-+" + "#?{}[]*/\\~_ "; //Dont forget the space in the last spot
+	private static String charIndex = "ABCDEFGHIJKLM" + "NOPQRSTUVWXYZ" + "abcdefghijklm" + "nopqrstuvwxyz" + "0123456789.,'" + "'\"\";:!@$%()-+" + "#?{}[]*/\\~_ ";
 	//Eras Demi TC
 	
 	public Font() {
@@ -35,33 +35,74 @@ public class Font {
 				if(i < text.length() - 1) nextChar = text.charAt(i + 1);
 				
 				//Resetting correct spacing
-				if(change == true && lastChar == 'I') spacing += 4;
-				if(change == true && lastChar == 'i' || lastChar == 't') spacing += 5; 
+				if(change == true && lastChar == 'I') spacing += 3;
+				if(change == true && lastChar == 'i') spacing += 3; 
+				if(change == true && lastChar == 't') spacing += 4;
 				if(change == true && lastChar == ' ') spacing += 4;
-				
+				if(change == true && lastChar == 'u') spacing += 1;
+				if(change == true && lastChar == 'q') spacing += 3;
+				if(change == true && lastChar == 'g') spacing += 3;
+				if(change == true && lastChar == 'c') spacing += 2;
+				if(change == true && lastChar == 'v') spacing += 4;
+
+				change = false;
 				//Set offsets for special chars in the y-direction
 				if(currentChar == 'g' || currentChar == 'y' || currentChar == 'q' || currentChar == ',' || currentChar == 'p' || currentChar == 'j') yOffset = 4; if(currentChar == '.') yOffset = 2;
 				if(currentChar == '\n') { //New line character
 					xOffset = 0;
 					line++;
 				}
+				
 				//Set all special indentations of characters here
-				if(nextChar == 'i' || nextChar == 't') {
-					spacing -= 3;
-					change = true;
-				}
-				if(currentChar == 'i') {
+				if(nextChar == 'i') { //Before the i
 					spacing -= 2;
 					change = true;
 				}
-				if(currentChar == 'I') {
+				if(nextChar == 'v') { //Before the v
+					spacing -= 2;
+					change = true;
+				}
+				if(nextChar == 'c') { //Before the c
+					spacing -= 2;
+					change = true;
+				}
+				if(nextChar == 'g') { //Before the g
+					spacing -= 3;
+					change = true;
+				}
+				if(nextChar == 't') { //Before the t
+					spacing -= 3;
+					change = true;
+				}
+				if(currentChar == 'v') { //After the v
+					spacing -= 2;
+					change = true;
+				}
+				if(currentChar == 'i') { //After the i
+					spacing -= 1;
+					change = true;
+				}
+				if(currentChar == 't') { //After the t
+					spacing -= 1;
+					change = true;
+				}
+				if(currentChar == 'I') { //After the I
+					spacing -= 3;
+					change = true;
+				}
+				if(currentChar == 'u') { //after the u
+					spacing -= 1;
+					change = true;
+				}
+				if(currentChar == 'q') { //after the q
+					spacing -= 3;
+					change = true;
+				}
+				if(currentChar == ' ') { //after the space
 					spacing -= 4;
 					change = true;
 				}
-				if(currentChar == ' ') {
-					spacing -= 4;
-					change = true;
-				}
+				
 				int index = charIndex.indexOf(currentChar);
 				if(index != -1) screen.renderTextCharacter(x + xOffset, y + line * 20 + yOffset, characters[index], color, false);
 			}
