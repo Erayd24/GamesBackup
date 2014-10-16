@@ -50,6 +50,7 @@ public class SpriteSheet {
 	
 	private Sprite[] sprites;
 	
+	//Constractor - Create a sprite sheet out of a spritesheet for use in animation
 	public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {
 		int xx = x * spriteSize;
 		int yy = y * spriteSize;
@@ -67,7 +68,6 @@ public class SpriteSheet {
 				pixels[x0 + y0 * w] = sheet.pixels[xp + yp * sheet.spriteWidth];
 			}
 		}
-		
 		int frame = 0;
 		sprites = new Sprite[width * height];
 		for(int ya = 0; ya < height; ya++) {
@@ -84,7 +84,7 @@ public class SpriteSheet {
 		}
 	}
 	
-	//Use this to load a new sprite sheet in another class with a square sheet
+	//Constructor - Use this to load a new sprite sheet in another class of a square sheet
 	public SpriteSheet(String path, int size) {
 		this.path = path;
 		SIZE = size;
@@ -94,7 +94,7 @@ public class SpriteSheet {
 		load();
 	} 
 	
-	 //Use this to load a new sprite sheet in another class with a non-square sheet
+	//Constructor - Use this to load a new sprite sheet in another class of a non-square sheet
 	public SpriteSheet(String path, int width, int height, int size) {
 		this.path = path;
 		SIZE = size;
@@ -111,7 +111,7 @@ public class SpriteSheet {
 		return pixels;
 	}
 	
-	//Get the sprites on the screen at the time
+	//Get the sprites on the screen at an index[]
 	public Sprite[] getSprites() {
 		return sprites;
 	}
