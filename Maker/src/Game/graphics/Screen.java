@@ -19,6 +19,8 @@ public class Screen {
 		public int xOffset, yOffset;
 		private Random random = new Random();
 		
+		private final int ALPHA_COL = 0xffff00ff; //pink
+		
 		//create a screen of a specific width and height
 		public Screen(int width, int height) {
 			this.width = width;
@@ -53,7 +55,24 @@ public class Screen {
 				for (int x = 0; x < sprite.getWidth(); x++) {
 					int xa = x + xp;
 					if(xa < 0 || xa >= width || ya < 0 || ya >= height) continue;
-					pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
+					int col = sprite.pixels[x + y * sprite.getWidth()];
+					if(col != ALPHA_COL && col != 0xff7f007f) pixels[xa + ya * width] = col;
+				}
+			}
+		}
+		
+		public void renderTextCharacter(int xp, int yp, Sprite sprite, int color, boolean fixed) {
+			if(fixed) {
+				xp -= xOffset;
+				yp -= yOffset;
+			}
+			for (int y = 0; y < sprite.getHeight(); y++) {
+				int ya = y + yp;
+				for (int x = 0; x < sprite.getWidth(); x++) {
+					int xa = x + xp;
+					if(xa < 0 || xa >= width || ya < 0 || ya >= height) continue;
+					int col = sprite.pixels[x + y * sprite.getWidth()];
+					if(col != ALPHA_COL && col != 0xff7f007f) pixels[xa + ya * width] = color;
 				}
 			}
 		}
@@ -84,7 +103,7 @@ public class Screen {
 					if(xa < -p.getSpriteSize() || xa >= width || ya < 0 || ya >= height) break;
 					if(xa < 0) xa = 0;
 					int col =  p.getSprite().pixels[x + y * p.getSprite().SIZE];
-					if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+					if (col != ALPHA_COL) pixels[xa + ya * width] = col;
 				}
 			}
 		}
@@ -104,7 +123,7 @@ public class Screen {
 					int col =  mob.getSprite().pixels[xs + ys * 32];
 					if((mob instanceof Chaser) && col == 0xff20066C) col = 0xff7F0000;
 					if((mob instanceof Follower) && col == 0xff20066C) col = 0xffe8e83a;
-					if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+					if (col != ALPHA_COL) pixels[xa + ya * width] = col;
 				}
 			}
 		}
@@ -122,7 +141,7 @@ public class Screen {
 					if(xa < -32 || xa >= width || ya < 0 || ya >= height) break;
 					if(xa < 0) xa = 0;
 					int col =  sprite.pixels[xs + ys * 32];
-					if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+					if (col != ALPHA_COL) pixels[xa + ya * width] = col;
 				}
 			}
 		}

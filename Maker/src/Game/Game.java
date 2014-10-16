@@ -137,7 +137,7 @@ public class Game extends Canvas implements Runnable {
 			int xScroll = player.getX() - screen.width / 2;
 			int yScroll = player.getY() - screen.height / 2;
 			level.render(xScroll, yScroll, screen);
-			font.render(screen);
+			font.render(50, 50, -3, 0, "text", screen);
 		} else if(State == STATE.INGAMEMENU) {
 			inGamemenu.render(screen);
 		}
