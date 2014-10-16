@@ -17,7 +17,6 @@ public class InGameMenu {
 
 	private Font font;
 	private Keyboard input;
-	private Screen screen;
 	
 	private int wait = 0;
 	private int width;
@@ -36,7 +35,11 @@ public class InGameMenu {
 	}
 
 	public void setText(Screen screen) {
-		font.render(5, 5, "open", screen);
+		font.render(7, 30, -3, 0, "Items", screen);
+		font.render(11, 53, -5, 0, "Equipment", screen);
+		font.render(12, 80, -3, 0, "Magic", screen);
+		font.render(7, 107, -3, 0, "Status", screen);
+		font.render(7, 135, -3, 0, "Save Game", screen);
 	}
 
 	public void update() {

@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
 	private static int width = 400;
-	private static int height = width / 16 * 9;
+	private static int height = (width / 16 * 9) - 1;
 	private static int scale = 3;
 	private static String title = "Thunder";
 	
