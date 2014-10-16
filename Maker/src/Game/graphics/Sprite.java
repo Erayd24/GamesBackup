@@ -63,7 +63,10 @@ public class Sprite {
 		SIZE = (width == height) ? width : -1;
 		this.height = height;
 		this.width = width;
-		this.pixels = pixels; 
+		this.pixels = new int[pixels.length];
+		for(int i = 0; i < pixels.length; i++) {
+			this.pixels[i] = pixels[i];
+		} 
 	}
 	
 	private void setColor(int color) {
@@ -83,8 +86,31 @@ public class Sprite {
 	private void load() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.WIDTH];
+				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.spriteWidth];
 			}
 		}
+	}
+
+	//Split all sprites in a sheet in to sprites automatically
+	public static Sprite[] split(SpriteSheet sheet) {
+		int amount = (sheet.getWidth() * sheet.getHeight()) / (sheet.spriteWidth * sheet.spriteHeight);
+		Sprite[] sprites = new Sprite[amount];
+		int current = 0;
+		int[] pixels = new int[sheet.spriteWidth * sheet.spriteHeight];
+		for(int yp = 0; yp < sheet.getHeight() / sheet.spriteHeight; yp++) {
+			for(int xp = 0; xp < sheet.getWidth() / sheet.spriteWidth; xp++) {
+				
+				for(int y = 0; y < sheet.spriteHeight; y++) {
+					for(int x = 0; x < sheet.spriteWidth; x++) {
+						int xo = x + xp * sheet.spriteWidth;
+						int yo = y + yp * sheet.spriteHeight;
+						pixels[x + y * sheet.spriteWidth] = sheet.getPixels()[xo + yo * sheet.getWidth()];
+					}
+				}
+				sprites[current] = new Sprite(pixels, sheet.spriteWidth, sheet.spriteHeight);
+				current++;
+			}
+		}
+		return sprites;
 	}
 }

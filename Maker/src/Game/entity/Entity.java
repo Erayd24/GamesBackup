@@ -27,11 +27,11 @@ public class Entity {
 			removed = true;
 		}
 		
-		public double getX() {
+		public int getX() {
 			return x;
 		}
 		
-		public double getY() {
+		public int getY() {
 			return y;
 		}
 		

@@ -10,6 +10,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import Game.entity.mob.Player;
+import Game.graphics.Font;
 import Game.graphics.Screen;
 import Game.graphics.menus.InGameMenu;
 import Game.input.Keyboard;
@@ -35,6 +36,7 @@ public class Game extends Canvas implements Runnable {
 	private InGameMenu inGamemenu;
 	private STATE State = STATE.GAME;
 	
+	private Font font;
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 			
@@ -49,8 +51,8 @@ public class Game extends Canvas implements Runnable {
 		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); 
 		level.add(player);
-		
 		inGamemenu = new InGameMenu();
+		font = new Font();
 		
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
@@ -130,19 +132,18 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		
-		Graphics g = bs.getDrawGraphics();
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-		
 		screen.clear();
 		if(State == STATE.GAME) {
-			double xScroll = player.getX() - screen.width / 2;
-			double yScroll = player.getY() - screen.height / 2;
-			level.render((int)xScroll, (int)yScroll, screen);
-			//g.drawImage(background, 0, 0, this);
+			int xScroll = player.getX() - screen.width / 2;
+			int yScroll = player.getY() - screen.height / 2;
+			level.render(xScroll, yScroll, screen);
+			font.render(screen);
 		} else if(State == STATE.INGAMEMENU) {
 			inGamemenu.render(screen);
-			//g.drawImage(background, 0, 0, this);
 		}
+		
+		Graphics g = bs.getDrawGraphics();
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		
 		//obtain the pixels which will be changed
 		for (int i = 0; i < pixels.length; i++) {
