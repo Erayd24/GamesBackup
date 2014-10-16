@@ -36,7 +36,6 @@ public class Game extends Canvas implements Runnable {
 	private InGameMenu inGameMenu;
 	private static STATE State;
 	
-	private Font font;
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 			
@@ -52,9 +51,8 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); 
 		level.add(player);
 		State = STATE.GAME;
-		font = new Font();
 		
-		inGameMenu = new InGameMenu(font, key);
+		inGameMenu = new InGameMenu(key);
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
 		addMouseListener(mouse);

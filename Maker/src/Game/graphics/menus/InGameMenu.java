@@ -23,10 +23,10 @@ public class InGameMenu {
 	private int height;
 	public int[] pixels;
 	
-	public InGameMenu(Font font, Keyboard input) {
+	public InGameMenu(Keyboard input) {
 		this.input = input;
-		this.font = font;
-		load("/menus/ingamemenu.png");
+		font = new Font();
+		load("/menus/ingamemenu.png"); 
 	}
 
 	public void render(Screen screen) {
@@ -35,11 +35,11 @@ public class InGameMenu {
 	}
 
 	public void setText(Screen screen) {
-		font.render(7, 30, -3, 0, "Items", screen);
+		font.render(7, 30, -4, 0, "Items", screen);
 		font.render(11, 53, -5, 0, "Equipment", screen);
-		font.render(12, 80, -3, 0, "Magic", screen);
-		font.render(7, 107, -3, 0, "Status", screen);
-		font.render(7, 135, -3, 0, "Save Game", screen);
+		font.render(12, 80, -4, 0, "Magic", screen);
+		font.render(9, 107, -5, 0, "Status", screen);
+		font.render(7, 135, -4, 0, "Save Game", screen);
 	}
 
 	public void update() {
