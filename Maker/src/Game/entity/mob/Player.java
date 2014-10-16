@@ -1,6 +1,7 @@
 package Game.entity.mob;
 
 import Game.Game;
+import Game.STATE;
 import Game.entity.projectile.Arrow;
 import Game.entity.projectile.Projectile;
 import Game.graphics.AnimatedSprite;
@@ -24,6 +25,7 @@ public class Player extends Mob{
 		private int fireRate = 0;
 		private double speed = 1;
 		private double xa, ya = 0;
+		private int wait = 0;
 		
 		//Constructor
 		public Player(Keyboard input) {
@@ -53,6 +55,7 @@ public class Player extends Mob{
 		
 		//Update the sprite animation based on an input
 		public void update() {
+			wait++;
 			xa = 0;
 			ya = 0;
 			if(walking) animSprite.update();
@@ -80,6 +83,11 @@ public class Player extends Mob{
 				walking = true;
 			} else {
 				walking = false;
+			}
+			
+			if(input.inventory && wait > 30) {
+				Game.changeState(STATE.INGAMEMENU);
+				wait = 0;
 			}
 			clear();
 			updateShooting();

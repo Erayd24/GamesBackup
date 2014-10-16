@@ -33,8 +33,8 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private boolean running = false;
 	private Screen screen;
-	private InGameMenu inGamemenu;
-	private STATE State = STATE.GAME;
+	private InGameMenu inGameMenu;
+	private static STATE State;
 	
 	private Font font;
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -51,9 +51,10 @@ public class Game extends Canvas implements Runnable {
 		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); 
 		level.add(player);
-		inGamemenu = new InGameMenu();
+		State = STATE.GAME;
 		font = new Font();
 		
+		inGameMenu = new InGameMenu(font, key);
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
 		addMouseListener(mouse);
@@ -66,6 +67,10 @@ public class Game extends Canvas implements Runnable {
 	
 	public static int getWindowHeight() {
 		return height * scale;
+	}
+	
+	public static void changeState(STATE state) {
+		State = state;
 	}
 	
 	public synchronized void start() {
@@ -120,9 +125,12 @@ public class Game extends Canvas implements Runnable {
 	
 	public void update() {
 		if(State == STATE.GAME) {
-			key.update();
 			level.update();
 		}
+		if(State == STATE.INGAMEMENU) {
+			inGameMenu.update();
+		}
+		key.update();
 	}
 	
 	public void render() {
@@ -137,9 +145,8 @@ public class Game extends Canvas implements Runnable {
 			int xScroll = player.getX() - screen.width / 2;
 			int yScroll = player.getY() - screen.height / 2;
 			level.render(xScroll, yScroll, screen);
-			font.render(50, 50, -3, 0, "text", screen);
 		} else if(State == STATE.INGAMEMENU) {
-			inGamemenu.render(screen);
+			inGameMenu.render(screen);
 		}
 		
 		Graphics g = bs.getDrawGraphics();

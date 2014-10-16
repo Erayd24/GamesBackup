@@ -2,7 +2,7 @@ package Game.graphics;
 
 public class Font {
 
-	private static SpriteSheet font = new SpriteSheet("/fonts/customFont.png", 208, 128, 16);
+	private static SpriteSheet font = new SpriteSheet("/fonts/customFont.png", 208, 115, 16);
 	private static Sprite[] characters = Sprite.split(font);
 	
 	private static String charIndex = "ABCDEFGHIJKLM" + "NOPQRSTUVWXYZ" + "abcdefghijklm" + "nopqrstuvwxyz" + "0123456789.,'" + "'\"\";:!@$%()-+" + "#?{}[]*/\\~ "; //Dont forget the space in the last spot
