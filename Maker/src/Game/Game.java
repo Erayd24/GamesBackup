@@ -6,9 +6,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.Serializable;
 
 import javax.swing.JFrame;
 
+import Game.data.Load;
+import Game.data.Save;
 import Game.entity.mob.Player;
 import Game.graphics.Screen;
 import Game.graphics.menus.InGameMenu;
@@ -17,7 +20,7 @@ import Game.input.Mouse;
 import Game.level.Level;
 import Game.level.TileCoordinate;
 
-public class Game extends Canvas implements Runnable, java.io.Serializable {
+public class Game extends Canvas implements Runnable, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static int width = 400;
@@ -34,6 +37,8 @@ public class Game extends Canvas implements Runnable, java.io.Serializable {
 	private Screen screen;
 	private InGameMenu inGameMenu;
 	private static STATE State;
+	private static Save save;
+	private static Load load;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -55,7 +60,17 @@ public class Game extends Canvas implements Runnable, java.io.Serializable {
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
 		addMouseListener(mouse);
-		addMouseMotionListener(mouse);		
+		addMouseMotionListener(mouse);	
+		save = new Save();
+		load = new Load();
+	}
+	
+	public static void saveState(String file) {
+		save.saveState(file);
+	}
+	
+	public static void loadState(String file) {
+		load.loadState(file);
 	}
 	
 	public static int getWindowWidth() {

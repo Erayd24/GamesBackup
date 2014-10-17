@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import Game.Game;
 import Game.STATE;
+import Game.data.Save;
 import Game.graphics.Font;
 import Game.graphics.Screen;
 import Game.graphics.SpriteSheet;
@@ -134,6 +135,7 @@ public class InGameMenu {
 			}
 		}
 		if(option == OPTION.SAVE) {
+			if(input.action) Game.saveState("axoh17.sav");
 			if(input.back){
 				option = OPTION.NONE;
 			}
