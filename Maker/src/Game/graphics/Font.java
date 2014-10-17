@@ -44,6 +44,8 @@ public class Font {
 				if(change == true && lastChar == 'g') spacing += 3;
 				if(change == true && lastChar == 'c') spacing += 2;
 				if(change == true && lastChar == 'v') spacing += 4;
+				if(change == true && lastChar == 'J') spacing += 3;
+				if(change == true && lastChar == 'm') spacing -= 1;
 
 				change = false;
 				//Set offsets for special chars in the y-direction
@@ -74,6 +76,10 @@ public class Font {
 					spacing -= 3;
 					change = true;
 				}
+				if(nextChar == 'm') { //Before the m
+					spacing += 1;
+					change = true;
+				}
 				if(currentChar == 'v') { //After the v
 					spacing -= 2;
 					change = true;
@@ -98,6 +104,10 @@ public class Font {
 					spacing -= 3;
 					change = true;
 				}
+				if(currentChar == 'J') { //after the J
+					spacing -= 3;
+					change = true;
+				}
 				if(currentChar == ' ') { //after the space
 					spacing -= 4;
 					change = true;
@@ -109,13 +119,15 @@ public class Font {
 		}
 	}
 	
-	public boolean show() {
+	public void show() {
 		visible = true;
-		return visible;
 	}
 	
-	public boolean hide() {
+	public void hide() {
 		visible = false;
+	}
+	
+	public boolean visibility() {
 		return visible;
 	}
 }

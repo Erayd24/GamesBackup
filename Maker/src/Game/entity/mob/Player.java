@@ -85,7 +85,7 @@ public class Player extends Mob{
 				walking = false;
 			}
 			
-			if(input.inventory && wait > 5) { //Inventory key is 'i'
+			if(input.inventory && wait > 10) { //Inventory key is 'i'
 				Game.changeState(STATE.INGAMEMENU);
 				wait = 0;
 			}
