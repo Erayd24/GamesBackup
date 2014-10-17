@@ -10,7 +10,6 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import Game.entity.mob.Player;
-import Game.graphics.Font;
 import Game.graphics.Screen;
 import Game.graphics.menus.InGameMenu;
 import Game.input.Keyboard;
@@ -18,7 +17,7 @@ import Game.input.Mouse;
 import Game.level.Level;
 import Game.level.TileCoordinate;
 
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas implements Runnable, java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static int width = 400;
@@ -56,7 +55,7 @@ public class Game extends Canvas implements Runnable {
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
 		addMouseListener(mouse);
-		addMouseMotionListener(mouse);
+		addMouseMotionListener(mouse);		
 	}
 	
 	public static int getWindowWidth() {

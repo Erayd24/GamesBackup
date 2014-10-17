@@ -9,7 +9,6 @@ import Game.Game;
 import Game.STATE;
 import Game.graphics.Font;
 import Game.graphics.Screen;
-import Game.graphics.Sprite;
 import Game.graphics.SpriteSheet;
 import Game.input.Keyboard;
 
