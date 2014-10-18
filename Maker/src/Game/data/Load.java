@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import Game.Game;
-import Game.graphics.Screen;
-import Game.level.Level;
-import Game.util.Vector2i;
 
 public class Load {
 
@@ -31,8 +28,9 @@ public class Load {
 		//Read objects
 		try {
 			reader = new ObjectInputStream (file_in);
-		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Load successful.");
+		} catch (Exception e) {
+			System.err.println("Load file failed...");
 		}
 	
 		try {
@@ -45,12 +43,9 @@ public class Load {
 	
 		if (obj instanceof Game) {
 			Game game = (Game) obj;
+			System.out.println("Game Object found.");
+			game.start();
 		}
-		/*if (obj instanceof Level) {
-			Level level = (Level) obj;
-		}
-		if (obj instanceof Screen) {
-			Screen screen = (Screen) obj;
-		}*/
+		
 	}
 }

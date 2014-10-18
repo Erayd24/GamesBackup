@@ -12,7 +12,7 @@ import Game.input.Keyboard;
 import Game.input.Mouse;
 
 public class Player extends Mob{
-
+	
 		private Keyboard input;
 		private Sprite sprite;
 		

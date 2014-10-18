@@ -21,7 +21,7 @@ import Game.level.Level;
 import Game.level.TileCoordinate;
 
 public class Game extends Canvas implements Runnable, Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1099950990443161867L;
 	
 	private static int width = 400;
 	private static int height = (width / 16 * 9) - 1;
@@ -37,8 +37,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 	private Screen screen;
 	private InGameMenu inGameMenu;
 	private static STATE State;
-	private static Save save;
 	private static Load load;
+	private static Save save;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();

@@ -7,7 +7,7 @@ import Game.graphics.Sprite;
 import Game.level.Level;
 
 public class Entity {
-
+	
 	//Things that move or "exist" or are interactable
 		protected int x, y;
 		protected Sprite sprite;
@@ -46,4 +46,5 @@ public class Entity {
 		public void init(Level level) {
 			this.level = level;
 		}
+
 }
