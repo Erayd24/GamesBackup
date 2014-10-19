@@ -7,6 +7,7 @@ import Game.entity.mob.Follower;
 import Game.entity.mob.Mob;
 import Game.entity.projectile.Projectile;
 import Game.graphics.menus.InGameMenu;
+import Game.graphics.menus.TitleMenu;
 import Game.level.tile.Tile;
 
 public class Screen {
@@ -42,6 +43,19 @@ public class Screen {
 		
 		//Render a menu screen
 		public void renderMenu(int xp, int yp, InGameMenu menu) {
+			for (int y = 0; y < menu.getHeight(); y++) {
+				int ya = y + yp;
+				for (int x = 0; x < menu.getWidth(); x++) {
+					int xa = x + xp;
+					if(xa < 0 || xa >= width || ya < 0 || ya >= height) continue;
+					int col = menu.pixels[x + y * menu.getWidth()];
+					if(col != ALPHA_COL && col != 0xff7f007f) pixels[xa + ya * width] = col;
+				}
+			}
+		}
+		
+		//Title screen render method
+		public void renderMenu(int xp, int yp, TitleMenu menu) {
 			for (int y = 0; y < menu.getHeight(); y++) {
 				int ya = y + yp;
 				for (int x = 0; x < menu.getWidth(); x++) {

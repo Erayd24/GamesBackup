@@ -7,14 +7,15 @@ import javax.imageio.ImageIO;
 
 import Game.Game;
 import Game.STATE;
-import Game.data.File;
 import Game.graphics.Font;
 import Game.graphics.Screen;
 import Game.graphics.SpriteSheet;
 import Game.input.Keyboard;
+import Game.input.Mouse;
+import Game.level.Level;
 
 
-public class InGameMenu {
+public class InGameMenu extends Menu {
 
 	private Font font;
 	private Keyboard input;
@@ -27,19 +28,10 @@ public class InGameMenu {
 	private int location = 0;
 	private int menuHeight = 134;
 	
-	private OPTION option;
+	private static OPTION option;
 	public int[] pixels;
-		
-	private enum OPTION {
-		ITEMS,
-		EQUIPMENT,
-		MAGIC,
-		STATUS,
-		SAVE,
-		NONE
-	};
 	
-	public InGameMenu(Keyboard input) {
+	public InGameMenu(Keyboard input, Mouse mouse) {
 		this.input = input;
 		font = new Font();
 		option = OPTION.NONE;
@@ -53,7 +45,7 @@ public class InGameMenu {
 		screen.drawRect(xRect, yRect, 108, 27, 0xffBC9D36, false);
 	}
 
-	private void showText(Screen screen) {
+	public void showText(Screen screen) {
 		if(option == OPTION.NONE) font.render(170, 35, -2, 0, "The Judgement", screen);
 		if(option == OPTION.ITEMS) font.render(215, 35, -4, 0, "Items", screen);
 		if(option == OPTION.EQUIPMENT) font.render(200, 35, -4, 0, "Equipment", screen);
@@ -130,20 +122,31 @@ public class InGameMenu {
 			}
 		}
 		if(option == OPTION.STATUS) {
-			if(input.action) Game.loadState("axoh17");
+			if(input.action);
 			if(input.back){
 				option = OPTION.NONE;
 			}
 		}
 		if(option == OPTION.SAVE) {
-			if(input.action) Game.saveState("axoh17");
+			if(input.action && wait > 5) {
+				wait = 0;
+				Game.saveState("axoh17");
+			}
 			if(input.back){
 				option = OPTION.NONE;
 			}
 		}
 	}
 	
-	private void load(String path) {
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+	
+	public void load(String path) {
 		try{	
 			System.out.print("Trying to load: " + path + " ... ");
 			BufferedImage image = ImageIO.read(SpriteSheet.class.getResource(path));
@@ -157,14 +160,6 @@ public class InGameMenu {
 		  } catch (Exception e) {
 			  System.err.println(" failed!");
 		  }
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
 	}
 	
 }

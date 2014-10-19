@@ -1,5 +1,7 @@
 package Game.entity.mob;
 
+import java.io.Serializable;
+
 import Game.Game;
 import Game.STATE;
 import Game.entity.projectile.Arrow;
@@ -11,7 +13,8 @@ import Game.graphics.SpriteSheet;
 import Game.input.Keyboard;
 import Game.input.Mouse;
 
-public class Player extends Mob{
+public class Player extends Mob implements Serializable {
+	private static final long serialVersionUID = -7300849165326826638L;
 	
 		private Keyboard input;
 		private Sprite sprite;

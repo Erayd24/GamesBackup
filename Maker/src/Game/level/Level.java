@@ -1,10 +1,12 @@
 package Game.level;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import Game.data.Save;
 import Game.entity.Entity;
 import Game.entity.mob.Player;
 import Game.entity.particle.Particle;
@@ -13,8 +15,9 @@ import Game.graphics.Screen;
 import Game.level.tile.Tile;
 import Game.util.Vector2i;
 
-public class Level {
-
+public class Level implements Serializable {
+	private static final long serialVersionUID = -7746026013477934275L;
+	
 	protected int width, height;
 	protected int[] tilesInt;
 	protected int[] tiles;

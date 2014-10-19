@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import Game.Game;
+import Game.entity.mob.Player;
+import Game.level.Level;
 
 public class Save implements Serializable {
 	private static final long serialVersionUID = 5719848248859586331L;
@@ -32,7 +34,14 @@ public class Save implements Serializable {
 		}
 		
 		try {
-			obj_out.writeObject(Game.class);
+			obj_out.writeObject(Player.class);
+			System.out.println("Save Successful");
+		} catch (Exception e) {
+			System.err.println("Save Failed.");
+		}
+		
+		try {
+			obj_out.writeObject(Level.class);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
 			System.err.println("Save Failed.");

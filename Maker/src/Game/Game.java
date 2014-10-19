@@ -6,15 +6,19 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import javax.swing.JFrame;
 
-import Game.data.Load;
 import Game.data.Save;
 import Game.entity.mob.Player;
 import Game.graphics.Screen;
 import Game.graphics.menus.InGameMenu;
+import Game.graphics.menus.TitleMenu;
 import Game.input.Keyboard;
 import Game.input.Mouse;
 import Game.level.Level;
@@ -31,13 +35,14 @@ public class Game extends Canvas implements Runnable, Serializable {
 	private Thread thread;
 	private JFrame frame;
 	private Keyboard key;
+	private Mouse mouse;
 	private Level level;
 	private Player player;
 	private boolean running = false;
 	private Screen screen;
 	private InGameMenu inGameMenu;
+	private TitleMenu titleMenu;
 	private static STATE State;
-	private static Load load;
 	private static Save save;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -50,27 +55,80 @@ public class Game extends Canvas implements Runnable, Serializable {
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		key = new Keyboard();
+		mouse = new Mouse();
 		level = Level.spawn;
 		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); 
 		level.add(player);
-		State = STATE.GAME;
+		State = STATE.TITLE;
 		
-		inGameMenu = new InGameMenu(key);
+		inGameMenu = new InGameMenu(key, mouse);
+		titleMenu = new TitleMenu(key, mouse);
 		addKeyListener(key);
-		Mouse mouse = new Mouse();
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);	
 		save = new Save();
-		load = new Load();
+	}
+	
+	//Constructor for Loading old files
+	public Game(String file) {
+		//Load a serialized file
+		FileInputStream file_in = null;
+		ObjectInputStream reader = null;
+		Object obj = null;
+		
+		try {
+			file_in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	
+		//Read objects
+		try {
+			reader = new ObjectInputStream (file_in);
+			System.out.println("Load successful.");
+		} catch (Exception e) {
+			System.err.println("Load file failed...");
+		}
+	
+		try {
+			obj = reader.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+		if(obj instanceof Player) {
+			Player player = (Player) obj;
+			this.player = player;
+		}
+		if(obj instanceof Level) {
+			Level level = (Level) obj;
+			this.level = level;
+		}
+		//End Load
+		
+		Dimension size = new Dimension(width * scale, height * scale);
+		setPreferredSize(size);
+		
+		screen = new Screen(width, height);
+		frame = new JFrame();
+		key = new Keyboard();
+		mouse = new Mouse();
+		level.add(player);
+		State = STATE.GAME;
+		
+		inGameMenu = new InGameMenu(key, mouse);
+		titleMenu = new TitleMenu(key, mouse);
+		addKeyListener(key);
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);	
+		save = new Save();
 	}
 	
 	public static void saveState(String file) {
 		save.saveState(file);
-	}
-	
-	public static void loadState(String file) {
-		load.loadState(file);
 	}
 	
 	public static int getWindowWidth() {
@@ -136,6 +194,9 @@ public class Game extends Canvas implements Runnable, Serializable {
 	}
 	
 	public void update() {
+		if(State == STATE.TITLE){
+			titleMenu.update();
+		}
 		if(State == STATE.GAME) {
 			level.update();
 		}
@@ -159,6 +220,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 			level.render(xScroll, yScroll, screen);
 		} else if(State == STATE.INGAMEMENU) {
 			inGameMenu.render(screen);
+		} else if(State == STATE.TITLE) {
+			titleMenu.render(screen);
 		}
 		
 		Graphics g = bs.getDrawGraphics();
