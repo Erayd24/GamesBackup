@@ -12,6 +12,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package Game;
 
+import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -25,6 +26,7 @@ import java.io.Serializable;
 
 import javax.swing.JFrame;
 
+import Game.data.Data;
 import Game.data.Save;
 import Game.entity.mob.Player;
 import Game.graphics.Screen;
@@ -34,7 +36,6 @@ import Game.input.Keyboard;
 import Game.input.Mouse;
 import Game.level.Level;
 import Game.level.TileCoordinate;
-import java.awt.Canvas;
 
 public class Game extends Canvas implements Runnable, Serializable {
 	private static final long serialVersionUID = 1099950990443161867L;
@@ -46,16 +47,17 @@ public class Game extends Canvas implements Runnable, Serializable {
 	
 	private Thread thread;
 	private JFrame frame;
-	private Keyboard key;
-	private Mouse mouse;
+	private static Keyboard key;
+	private static Mouse mouse;
 	private static Level level;
-	private Player player;
+	private static Player player;
 	private boolean running = false;
 	private Screen screen;
 	private InGameMenu inGameMenu;
 	private TitleMenu titleMenu;
 	private static STATE State;
 	private static Save save;
+	private static Data data;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -69,11 +71,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 		frame = new JFrame();
 		key = new Keyboard();
 		mouse = new Mouse();
-		level = Level.spawn;
-		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
-		player = new Player(playerSpawn.x(), playerSpawn.y(), key, mouse); 
-		level.add(player);
-		State = STATE.GAME;
+		State = STATE.TITLE;
 		
 		inGameMenu = new InGameMenu(key, mouse);
 		titleMenu = new TitleMenu(key, mouse);
@@ -83,8 +81,17 @@ public class Game extends Canvas implements Runnable, Serializable {
 		save = new Save();
 	}
 	
-	//Constructor for Loading old files
-	public Game(String file) {
+	public static void newGame() {
+		level = Level.spawn;
+		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
+		player = new Player(playerSpawn.x(), playerSpawn.y(), key, mouse); 
+		level.add(player);
+		data = new Data();
+		State = STATE.GAME;
+	}
+	
+	//Loading old files
+	public static void load(String file) {
 		
 		//Load a serialized file		
 		FileInputStream file_in = null;
@@ -108,49 +115,28 @@ public class Game extends Canvas implements Runnable, Serializable {
 			System.err.println("Load file failed...");
 		}
 	
-		try {
-			obj = reader.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		if(obj instanceof Player) {
-			player = (Player) obj;
-		}
-		
-		try {
-			obj = reader.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		if(obj instanceof Level) {
-			level = (Level) obj;
-		}
-		
-		try {
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//End Load
-		
 		if(found) {
+			try {
+				obj = reader.readObject();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if(obj instanceof Data) {
+				data = (Data) obj;
+			}
+			
+			level = Level.spawn;
+			player = new Player(data.getPlayerX(), data.getPlayerY(), key, mouse);
+			level.add(player);
 			State = STATE.GAME;
-			
-			inGameMenu = new InGameMenu(key, mouse);
-			titleMenu = new TitleMenu(key, mouse);
-			key = new Keyboard();
-			mouse = new Mouse();
-			
-			addKeyListener(key);
-			addMouseListener(mouse);
-			addMouseMotionListener(mouse);
 		}
+	}
+	
+	public static Data getData() {
+		return data;
 	}
 	
 	public static void saveState(String file) {
@@ -167,15 +153,6 @@ public class Game extends Canvas implements Runnable, Serializable {
 	
 	public static void changeState(STATE state) {
 		State = state;
-	}
-	
-	//For saving
-	public static Player getPlayer(int index) {
-		return level.getPlayerAt(index);
-	}
-	
-	public static Level getLevel() {
-		return level;
 	}
 	
 	public synchronized void start() {
@@ -234,9 +211,11 @@ public class Game extends Canvas implements Runnable, Serializable {
 		}
 		if(State == STATE.GAME) {
 			level.update();
+			data.update(level);
 		}
 		if(State == STATE.INGAMEMENU) {
 			inGameMenu.update();
+			data.update(level);
 		}
 		key.update();
 	}
@@ -250,8 +229,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 		
 		screen.clear();
 		if(State == STATE.GAME) {
-			int xScroll = getPlayer(0).getX() - screen.width / 2;
-			int yScroll = getPlayer(0).getY() - screen.height / 2;
+			int xScroll = level.getPlayerAt(0).getX() - screen.width / 2;
+			int yScroll = level.getPlayerAt(0).getY() - screen.height / 2;
 			level.render(xScroll, yScroll, screen);
 		} else if(State == STATE.INGAMEMENU) {
 			inGameMenu.render(screen);

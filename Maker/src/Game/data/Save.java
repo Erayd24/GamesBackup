@@ -7,8 +7,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import Game.Game;
-import Game.entity.mob.Player;
-import Game.level.Level;
 
 public class Save implements Serializable {
 	private static final long serialVersionUID = 5719848248859586331L;
@@ -22,9 +20,7 @@ public class Save implements Serializable {
 	}
 	
 	public void saveState(String file) {
-		//Objects set for saving
-		Player player = Game.getPlayer(0);
-		Level level = Game.getLevel();
+		Data data = Game.getData();
 		
 		//Open existing file and write to it
 		try {
@@ -39,16 +35,8 @@ public class Save implements Serializable {
 			e.printStackTrace();
 		}
 		
-		try { //Player
-			obj_out.writeObject(player);
-			System.out.println("Save Successful");
-		} catch (Exception e) {
-			System.err.println("Save Failed.");
-			e.printStackTrace();
-		}
-		
-		try { //Level
-			obj_out.writeObject(level);
+		try { //Data
+			obj_out.writeObject(data);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
 			System.err.println("Save Failed.");

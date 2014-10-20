@@ -33,7 +33,7 @@ public class Player extends Mob implements Serializable {
 		
 		//Constructor - Create a new Player
 		public Player(Keyboard input, Mouse mouse) {
-			this.input = input;
+			this.setInput(input);
 			this.mouse = mouse;
 			sprite = Sprite.player_forward;
 			frameRate();
@@ -44,7 +44,7 @@ public class Player extends Mob implements Serializable {
 		public Player(int x, int y, Keyboard input, Mouse mouse) { 
 			this.x = x;
 			this.y = y; 
-			this.input = input;
+			this.setInput(input);
 			this.mouse = mouse;
 			sprite = Sprite.player_forward;
 			frameRate();
@@ -121,5 +121,13 @@ public class Player extends Mob implements Serializable {
 		public void render(Screen screen) {
 			sprite = animSprite.getSprite();
 			screen.renderMob(x - 16, y - 16, sprite);
+		}
+
+		public Keyboard getInput() {
+			return input;
+		}
+
+		public void setInput(Keyboard input) {
+			this.input = input;
 		}
 }

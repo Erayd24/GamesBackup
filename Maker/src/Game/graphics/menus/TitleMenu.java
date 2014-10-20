@@ -16,7 +16,6 @@ public class TitleMenu extends Menu {
 
 	private Font font;
 	private Keyboard input;
-	private Game game;
 	
 	private int wait = 0;
 	private int width;
@@ -34,7 +33,8 @@ public class TitleMenu extends Menu {
 	}
 	
 	public void update() {
-		if(input.action) game = new Game("axoh17"); //Change this to file name variable for when creating names is an option
+		if(input.action) Game.load("axoh17"); //Change this to file name variable for when creating names is an option
+		if(input.back) Game.newGame();
 	}
 
 	
