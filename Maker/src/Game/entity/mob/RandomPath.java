@@ -5,6 +5,7 @@ import Game.graphics.Screen;
 import Game.graphics.SpriteSheet;
 
 public class RandomPath extends Mob{
+	private static final long serialVersionUID = -8518314043225004523L;
 	
 	private boolean walking = false;
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.RandomPath_up, 32, 32, 3);
@@ -17,18 +18,21 @@ public class RandomPath extends Mob{
 	private int speed = 1;
 	private AnimatedSprite animSprite = down;
 	
+	//Constructor - In tile precision, spawn a randomPath NPC/Mob at x, y
 	public RandomPath(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
 	}
 	
+	//Render the mob to the screen
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
 		screen.renderMob(x, y, this);
 	}
 
-	public void move() { //Using random path movement
-		if(time % (random.nextInt(60) + 30) == 0) { //Set an AI to walk in a set interval
+	//Move the random path mob - "RandomPath AI"
+	public void move() {
+		if(time % (random.nextInt(60) + 30) == 0) {
 			xa = random.nextInt(3) - speed;
 			ya = random.nextInt(3) - speed;
 			if(random.nextInt(4) == 0) { //stopping
@@ -45,6 +49,7 @@ public class RandomPath extends Mob{
 		}
 	}
 	
+	//Update the mob
 	public void update() {
 		time++;
 		move();
@@ -66,5 +71,4 @@ public class RandomPath extends Mob{
 			dir = Direction.RIGHT;
 		}
 	}
-
 }

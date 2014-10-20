@@ -9,6 +9,7 @@ import Game.graphics.SpriteSheet;
 import Game.util.Vector2i;
 
 public class Shooter extends Mob {
+	private static final long serialVersionUID = -4130949015138968538L;
 	
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.Shooter_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.Shooter_right, 32, 32, 3);
@@ -19,19 +20,22 @@ public class Shooter extends Mob {
 	private int time = 0;
 	private int xa, ya = 0;
 
-	
+	//Constructor
+	//Create a new shooter mob in a specific location in tile precision
 	public Shooter(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
 	}
 
+	//Render these mobs on the screen as well as their animations
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
 		screen.renderMob(x,  y,  this);
 	}
 
-	public void move() { //Using random path movement
-		if(time % (random.nextInt(60) + 30) == 0) { //Set an AI to walk in a set interval
+	//Move method to keep the mob moving - "Random Path AI"
+	public void move() {
+		if(time % (random.nextInt(60) + 30) == 0) {
 			xa = random.nextInt(3) - speed;
 			ya = random.nextInt(3) - speed;
 			if(random.nextInt(4) == 0) { //stopping
@@ -48,6 +52,7 @@ public class Shooter extends Mob {
 		}
 	}
 	
+	//Update for the shooter to aim at the player with it's projectile
 	public void update() {
 		List<Player> players = level.getPlayers(this, 100);
 		players.add(level.getClientPlayer());
@@ -87,5 +92,4 @@ public class Shooter extends Mob {
 			dir = Direction.RIGHT;
 		}
 	}
-
 }

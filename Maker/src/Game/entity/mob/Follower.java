@@ -22,16 +22,19 @@ public class Follower extends Mob{
 	private List<Node> path = null;
 	private int time = 0;
 	
+	//Constructor - Create a new follower mob in tile precision
 	public Follower(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
 	}
 	
+	//Render the mob on screen
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
 		screen.renderMob(x - 16, y - 16, this);
 	}
 
+	//Move the mob - "Following AI - A* Search"
 	private void move() {
 		xa = 0;
 		ya = 0;
@@ -58,6 +61,7 @@ public class Follower extends Mob{
 		}
 	}
 	
+	//Update the mobs movements and actions
 	public void update() {
 		time++;
 		move();

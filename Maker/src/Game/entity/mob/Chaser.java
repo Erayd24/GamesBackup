@@ -18,16 +18,19 @@ public class Chaser extends Mob {
 	private int xa, ya = 0;
 	private double speed = 1;
 	
+	//Create a new Chaser Mob in tile precision
 	public Chaser(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
 	}
 	
+	//Render the mob on screen
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
 		screen.renderMob(x - 16, y - 16, this);
 	}
 
+	//Move the mob - "Chaser AI"
 	private void move() {
 		xa = 0;
 		ya = 0;
@@ -48,6 +51,7 @@ public class Chaser extends Mob {
 		}
 	}
 	
+	//Update movement and actions of Mob
 	public void update() {
 		move();
 		if(walking) animSprite.update();

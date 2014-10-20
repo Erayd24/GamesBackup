@@ -52,7 +52,7 @@ public class SpriteSheet implements Serializable {
 	
 	private Sprite[] sprites;
 	
-	//Constractor - Create a sprite sheet out of a spritesheet for use in animation
+	//Constructor - Create a sprite sheet out of a spritesheet for use in animation
 	public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {
 		int xx = x * spriteSize;
 		int yy = y * spriteSize;

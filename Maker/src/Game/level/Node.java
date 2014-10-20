@@ -14,6 +14,7 @@ public class Node implements Serializable {
 	//gCost - Distance from node to node from start
 	//fCost - Combination of hCost and gCost1
 	
+	//Constructor
 	public Node(Vector2i tile, Node parent, double gCost, double hCost) {
 		this.tile = tile;
 		this.parent = parent;

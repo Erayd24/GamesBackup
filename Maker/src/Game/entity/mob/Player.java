@@ -17,7 +17,7 @@ public class Player extends Mob implements Serializable {
 	private static final long serialVersionUID = -7300849165326826638L;
 	
 		private Keyboard input;
-		private Mouse mouse;
+		private Mouse mouse; //TODO: Create mouse controls
 		private Sprite sprite;
 		
 		private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
@@ -31,7 +31,7 @@ public class Player extends Mob implements Serializable {
 		private double xa, ya = 0;
 		private int wait = 0;
 		
-		//Constructor
+		//Constructor - Create a new Player
 		public Player(Keyboard input, Mouse mouse) {
 			this.input = input;
 			this.mouse = mouse;
@@ -117,7 +117,7 @@ public class Player extends Mob implements Serializable {
 			}
 		}
 		
-		//Render the player based on it's location
+		//Render the player based on its location
 		public void render(Screen screen) {
 			sprite = animSprite.getSprite();
 			screen.renderMob(x - 16, y - 16, sprite);

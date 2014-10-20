@@ -67,7 +67,7 @@ public class Screen {
 			}
 		}
 		
-		//Render an image on screen which can move with the player
+		//Render a sprite on screen that could be fixed to a point
 		public void renderSprite(int xp, int yp, Sprite sprite, boolean fixed) {
 			if(fixed) {
 				xp -= xOffset;
@@ -115,7 +115,7 @@ public class Screen {
 			}
 		}
 		
-		//Render a projectile sprite1
+		//Render a projectile sprite
 		public void renderProjectile(int xp, int yp, Projectile p) {
 			xp -= xOffset;
 			yp -= yOffset;
@@ -131,7 +131,7 @@ public class Screen {
 			}
 		}
 		
-		//Render Mobs that can be different colors
+		//Render Mobs of different colors
 		public void renderMob(int xp, int yp, Mob mob) {
 			xp -= xOffset;
 			yp -= yOffset;
@@ -169,6 +169,7 @@ public class Screen {
 			}
 		}
 		
+		//Set the offset to render level movement
 		public void setOffset(int xOffset, int yOffset) {
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;

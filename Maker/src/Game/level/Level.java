@@ -29,7 +29,7 @@ public class Level implements Serializable {
 	//Levels
 	public static Level spawn = new SpawnLevel("/levels/spawnlevel.png");
 	
-	//Constructor
+	//Constructor -  random generator
 	public Level(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -37,12 +37,13 @@ public class Level implements Serializable {
 		generateLevel();
 	}
 	
-	//Constructor
+	//Constructor - pre-made level
 	public Level (String path) {
 		loadLevel(path);
 		generateLevel();
 	}
 	
+	//Sort a list of nodes
 	private transient Comparator<Node> nodeSorter = new Comparator<Node>() {
 		public int compare(Node n0, Node n1) {
 			if(n1.fCost < n0.fCost)return 1; 
@@ -51,9 +52,11 @@ public class Level implements Serializable {
 		}
 	};
 	
+	//Generate the new level
 	protected void generateLevel() {
 	}
 	
+	//Load a level from a file
 	protected void loadLevel(String path) {
 	}
 	
@@ -90,7 +93,7 @@ public class Level implements Serializable {
 		}
 	}
 	
-	private void time() {
+	private void time() { //TODO: Add a time variable to keep track of player progress time
 	}
 	
 	//Return a tile to be collided with if declared solid
@@ -258,6 +261,7 @@ public class Level implements Serializable {
 		return projectiles;
 	}
 	
+	//Get a tile space and set it to a sprite
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
 		if (tiles[x + y * width] == Tile.col_grass) return Tile.grass; 

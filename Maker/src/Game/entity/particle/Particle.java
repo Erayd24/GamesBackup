@@ -1,27 +1,28 @@
 package Game.entity.particle;
 
-
 import Game.entity.Entity;
 import Game.graphics.Screen;
 import Game.graphics.Sprite;
 
 public class Particle extends Entity {
-	
+	private static final long serialVersionUID = 8613733125930510301L;
+
 	private Sprite sprite;
 	
 	private int life;
 	private int time = 0;
 	
 	protected double xx, yy, zz;
-	protected double xa, ya, za;
+	protected double xa, ya, za; //adjustments
 	
-	public Particle(int x, int y, int life) { //one particle
+	//Constructor - Create a particle
+	public Particle(int x, int y, int life) {
 		this.x = x; //int
 		this.y = y;
 		this.xx = x; //double
 		this.yy = y;
-		this.life = life + (random.nextInt(20) - 10);
-		sprite = Sprite.particle_normal;
+		this.life = life + (random.nextInt(20) - 10); //Setting a random life length 0 - 9
+		sprite = Sprite.particle_normal; //The sprite used for particles
 		
 		this.xa = random.nextGaussian();
 		this.ya = random.nextGaussian();

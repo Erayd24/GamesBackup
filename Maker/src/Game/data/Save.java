@@ -18,16 +18,19 @@ public class Save implements Serializable {
 	private transient FileOutputStream file_out;
 	private transient ObjectOutputStream obj_out;
 	
+	//Constructor - Create a save object to save the state
 	public Save() {
 		
 	}
 	
 	public void saveState(String file) {
+		//Objects set for saving
 		Player player = Game.getPlayer(0);
 		Level level = Game.getLevel();
 		Keyboard keyboard = Game.getkeyboard();
 		Mouse mouse = Game.getmouse();
 		
+		//Open existing file and write to it
 		try {
 			file_out = new FileOutputStream(file);
 		} catch (FileNotFoundException e) {
@@ -40,7 +43,7 @@ public class Save implements Serializable {
 			e.printStackTrace();
 		}
 		
-		try {
+		try { //Player
 			obj_out.writeObject(player);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
@@ -48,7 +51,7 @@ public class Save implements Serializable {
 			e.printStackTrace();
 		}
 		
-		try {
+		try { //Level
 			obj_out.writeObject(level);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
@@ -56,7 +59,7 @@ public class Save implements Serializable {
 			e.printStackTrace();
 		}
 		
-		try {
+		try { //Keyboard
 			obj_out.writeObject(keyboard);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
@@ -65,7 +68,7 @@ public class Save implements Serializable {
 		}
 		
 
-		try {
+		try { //Mouse
 			obj_out.writeObject(mouse);
 			System.out.println("Save Successful");
 		} catch (Exception e) {

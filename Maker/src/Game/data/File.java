@@ -7,6 +7,7 @@ public class File {
 
 	private PrintWriter writer;
 	
+	//Constructor - Make a new file
 	public File() {
 		
 	}
