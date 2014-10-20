@@ -1,9 +1,12 @@
 package Game.level;
 
+import java.io.Serializable;
+
 import Game.util.Vector2i;
 
-public class Node {
-
+public class Node implements Serializable {
+	private static final long serialVersionUID = 4752208427591387982L;
+	
 	public Vector2i tile;
 	public Node parent;
 	public double fCost, gCost, hCost;

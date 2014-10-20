@@ -2,9 +2,11 @@ package Game.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
-public class Keyboard implements KeyListener{
-
+public class Keyboard implements KeyListener, Serializable{
+	private static final long serialVersionUID = 3549887181991201640L;
+	
 	private boolean[] keys = new boolean[200];
 	public boolean up, down, left, right, inventory, action, back;
 	

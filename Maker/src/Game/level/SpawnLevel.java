@@ -11,7 +11,8 @@ import Game.entity.mob.RandomPath;
 import Game.entity.mob.Shooter;
 
 public class SpawnLevel extends Level{
-	
+	private static final long serialVersionUID = -3424311632225505497L;
+
 	public SpawnLevel(String path) {
 		super(path);
 	}
@@ -29,7 +30,7 @@ public class SpawnLevel extends Level{
 			System.out.println("Exception! Could not load level file!");
 		}
 		add(new Chaser(6, 4));
-		add(new Follower(8, 8));
+		//add(new Follower(8, 8));
 		add(new Shooter(9, 8));
 		add(new RandomPath( 4, 3));
 	}

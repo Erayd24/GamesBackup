@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 import Game.Game;
 import Game.entity.mob.Player;
+import Game.input.Keyboard;
+import Game.input.Mouse;
 import Game.level.Level;
 
 public class Save implements Serializable {
@@ -21,6 +23,11 @@ public class Save implements Serializable {
 	}
 	
 	public void saveState(String file) {
+		Player player = Game.getPlayer(0);
+		Level level = Game.getLevel();
+		Keyboard keyboard = Game.getkeyboard();
+		Mouse mouse = Game.getmouse();
+		
 		try {
 			file_out = new FileOutputStream(file);
 		} catch (FileNotFoundException e) {
@@ -34,17 +41,36 @@ public class Save implements Serializable {
 		}
 		
 		try {
-			obj_out.writeObject(Player.class);
+			obj_out.writeObject(player);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
 			System.err.println("Save Failed.");
+			e.printStackTrace();
 		}
 		
 		try {
-			obj_out.writeObject(Level.class);
+			obj_out.writeObject(level);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
 			System.err.println("Save Failed.");
+			e.printStackTrace();
+		}
+		
+		try {
+			obj_out.writeObject(keyboard);
+			System.out.println("Save Successful");
+		} catch (Exception e) {
+			System.err.println("Save Failed.");
+			e.printStackTrace();
+		}
+		
+
+		try {
+			obj_out.writeObject(mouse);
+			System.out.println("Save Successful");
+		} catch (Exception e) {
+			System.err.println("Save Failed.");
+			e.printStackTrace();
 		}
 		
 		try {

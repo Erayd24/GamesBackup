@@ -1,7 +1,10 @@
 package Game.util;
 
-public class Vector2i {
+import java.io.Serializable;
 
+public class Vector2i implements Serializable {
+	private static final long serialVersionUID = 2734629248165065319L;
+	
 	private int x, y;
 	private double xx, yy;
 	

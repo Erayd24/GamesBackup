@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import Game.data.Save;
 import Game.entity.Entity;
 import Game.entity.mob.Player;
 import Game.entity.particle.Particle;
@@ -44,7 +43,7 @@ public class Level implements Serializable {
 		generateLevel();
 	}
 	
-	private Comparator<Node> nodeSorter = new Comparator<Node>() {
+	private transient Comparator<Node> nodeSorter = new Comparator<Node>() {
 		public int compare(Node n0, Node n1) {
 			if(n1.fCost < n0.fCost)return 1; 
 			if(n1.fCost > n0.fCost)return -1; 

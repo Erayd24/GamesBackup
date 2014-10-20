@@ -2,11 +2,13 @@ package Game.graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class SpriteSheet {
-
+public class SpriteSheet implements Serializable {
+	private static final long serialVersionUID = -4217054471243031610L;
+	
 	private String path; 
 	public final int spriteWidth;
 	public final int spriteHeight;

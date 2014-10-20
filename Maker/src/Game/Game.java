@@ -34,9 +34,9 @@ public class Game extends Canvas implements Runnable, Serializable {
 	
 	private Thread thread;
 	private JFrame frame;
-	private Keyboard key;
-	private Mouse mouse;
-	private Level level;
+	private static Keyboard key;
+	private static Mouse mouse;
+	private static Level level;
 	private Player player;
 	private boolean running = false;
 	private Screen screen;
@@ -48,7 +48,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 			
-	public Game() {
+	private Game() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 		
@@ -58,64 +58,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 		mouse = new Mouse();
 		level = Level.spawn;
 		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
-		player = new Player(playerSpawn.x(), playerSpawn.y(), key); 
-		level.add(player);
-		State = STATE.TITLE;
-		
-		inGameMenu = new InGameMenu(key, mouse);
-		titleMenu = new TitleMenu(key, mouse);
-		addKeyListener(key);
-		addMouseListener(mouse);
-		addMouseMotionListener(mouse);	
-		save = new Save();
-	}
-	
-	//Constructor for Loading old files
-	public Game(String file) {
-		//Load a serialized file
-		FileInputStream file_in = null;
-		ObjectInputStream reader = null;
-		Object obj = null;
-		
-		try {
-			file_in = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	
-		//Read objects
-		try {
-			reader = new ObjectInputStream (file_in);
-			System.out.println("Load successful.");
-		} catch (Exception e) {
-			System.err.println("Load file failed...");
-		}
-	
-		try {
-			obj = reader.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	
-		if(obj instanceof Player) {
-			Player player = (Player) obj;
-			this.player = player;
-		}
-		if(obj instanceof Level) {
-			Level level = (Level) obj;
-			this.level = level;
-		}
-		//End Load
-		
-		Dimension size = new Dimension(width * scale, height * scale);
-		setPreferredSize(size);
-		
-		screen = new Screen(width, height);
-		frame = new JFrame();
-		key = new Keyboard();
-		mouse = new Mouse();
+		player = new Player(playerSpawn.x(), playerSpawn.y(), key, mouse); 
 		level.add(player);
 		State = STATE.GAME;
 		
@@ -127,8 +70,103 @@ public class Game extends Canvas implements Runnable, Serializable {
 		save = new Save();
 	}
 	
+	//Constructor for Loading old files
+	public Game(String file) {
+		
+		//Load a serialized file		
+		FileInputStream file_in = null;
+		ObjectInputStream reader = null;
+		Object obj = null;
+		
+		boolean found = false;
+		
+		try {
+			file_in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	
+		//Read and assign the objects
+		try {
+			reader = new ObjectInputStream (file_in);
+			System.out.println("Load successful.");
+			found = true;
+		} catch (Exception e) {
+			System.err.println("Load file failed...");
+		}
+	
+		try {
+			obj = reader.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(obj instanceof Player) {
+			player = (Player) obj;
+		}
+		
+		try {
+			obj = reader.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(obj instanceof Level) {
+			level = (Level) obj;
+		}
+		
+		try {
+			obj = reader.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(obj instanceof Keyboard) {
+			key = (Keyboard) obj;
+		}
+		
+		try {
+			obj = reader.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(obj instanceof Mouse) {
+			mouse = (Mouse) obj;
+		}
+		//End Load
+		
+		//player.addListeners(key, mouse);
+		if(found) {
+			State = STATE.GAME;
+			
+			inGameMenu = new InGameMenu(key, mouse);
+			titleMenu = new TitleMenu(key, mouse);
+			
+			addKeyListener(key);
+			addMouseListener(mouse);
+			addMouseMotionListener(mouse);
+		}
+	}
+	
 	public static void saveState(String file) {
 		save.saveState(file);
+	}
+	
+	public static Keyboard getkeyboard() {
+		return key;
+	}
+	
+	public static Mouse getmouse() {
+		return mouse;
 	}
 	
 	public static int getWindowWidth() {
@@ -141,6 +179,15 @@ public class Game extends Canvas implements Runnable, Serializable {
 	
 	public static void changeState(STATE state) {
 		State = state;
+	}
+	
+	//For saving
+	public static Player getPlayer(int index) {
+		return level.getPlayerAt(index);
+	}
+	
+	public static Level getLevel() {
+		return level;
 	}
 	
 	public synchronized void start() {
@@ -215,8 +262,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 		
 		screen.clear();
 		if(State == STATE.GAME) {
-			int xScroll = player.getX() - screen.width / 2;
-			int yScroll = player.getY() - screen.height / 2;
+			int xScroll = getPlayer(0).getX() - screen.width / 2;
+			int yScroll = getPlayer(0).getY() - screen.height / 2;
 			level.render(xScroll, yScroll, screen);
 		} else if(State == STATE.INGAMEMENU) {
 			inGameMenu.render(screen);

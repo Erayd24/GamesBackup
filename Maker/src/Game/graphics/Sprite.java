@@ -1,7 +1,10 @@
 package Game.graphics;
 
-public class Sprite {
+import java.io.Serializable;
 
+public class Sprite implements Serializable {
+	private static final long serialVersionUID = 1433057551120829618L;
+	
 	public final int SIZE; //Of a sprite
 	private int x,y;
 	private int width, height; //Of a sprite

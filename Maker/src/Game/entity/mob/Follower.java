@@ -9,7 +9,8 @@ import Game.level.Node;
 import Game.util.Vector2i;
 
 public class Follower extends Mob{
-
+	private static final long serialVersionUID = -374000897842916693L;
+	
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.Follower_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.Follower_right, 32, 32, 3);
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.Follower_down, 32, 32, 3);

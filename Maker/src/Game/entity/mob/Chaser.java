@@ -6,8 +6,9 @@ import Game.graphics.AnimatedSprite;
 import Game.graphics.Screen;
 import Game.graphics.SpriteSheet;
 
-public class Chaser extends Mob{
-
+public class Chaser extends Mob {
+	private static final long serialVersionUID = -717482999174822534L;
+	
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.Chaser_up, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.Chaser_right, 32, 32, 3);
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.Chaser_down, 32, 32, 3);

@@ -3,9 +3,11 @@ package Game.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 
-public class Mouse implements MouseListener, MouseMotionListener{
-
+public class Mouse implements MouseListener, MouseMotionListener, Serializable{
+	private static final long serialVersionUID = -1849147075850367686L;
+	
 	private static int mouseX = -1;
 	private static int mouseY = -1;
 	private static int mouseB = -1;

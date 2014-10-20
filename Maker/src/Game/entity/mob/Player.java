@@ -17,6 +17,7 @@ public class Player extends Mob implements Serializable {
 	private static final long serialVersionUID = -7300849165326826638L;
 	
 		private Keyboard input;
+		private Mouse mouse;
 		private Sprite sprite;
 		
 		private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
@@ -31,10 +32,23 @@ public class Player extends Mob implements Serializable {
 		private int wait = 0;
 		
 		//Constructor
-		public Player(Keyboard input) {
+		public Player(Keyboard input, Mouse mouse) {
 			this.input = input;
+			this.mouse = mouse;
 			sprite = Sprite.player_forward;
 			frameRate();
+		}
+		
+		//Constructor
+		//For a specific spawn point
+		public Player(int x, int y, Keyboard input, Mouse mouse) { 
+			this.x = x;
+			this.y = y; 
+			this.input = input;
+			this.mouse = mouse;
+			sprite = Sprite.player_forward;
+			frameRate();
+			fireRate = Arrow.rateOfFire;
 		}
 		
 		//Set framerate of individual animations
@@ -44,17 +58,6 @@ public class Player extends Mob implements Serializable {
 			left.setFrameRate(5);
 			right.setFrameRate(5);
 		}
-
-		//Constructor
-		//For a specific spawn point
-		public Player(int x, int y, Keyboard input) { 
-			this.x = x;
-			this.y = y; 
-			this.input = input;
-			sprite = Sprite.player_forward;
-			frameRate();
-			fireRate = Arrow.rateOfFire;
-		}
 		
 		//Update the sprite animation based on an input
 		public void update() {
@@ -63,9 +66,8 @@ public class Player extends Mob implements Serializable {
 			ya = 0;
 			if(walking) animSprite.update();
 			else animSprite.setFrame(0);
-			
+
 			if(fireRate > 0) fireRate--;
-			
 			if(input.up) {
 				animSprite = up;
 				ya -= speed;
