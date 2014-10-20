@@ -1,6 +1,17 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Author: Travis Dewitt
+ * 
+ * Title: The Judgement
+ * 
+ * Date: 10/20/14
+ * 
+ * Version: 0.1
+ * 
+ * Description: A game engine built to power a custom video game
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package Game;
 
-import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -23,6 +34,7 @@ import Game.input.Keyboard;
 import Game.input.Mouse;
 import Game.level.Level;
 import Game.level.TileCoordinate;
+import java.awt.Canvas;
 
 public class Game extends Canvas implements Runnable, Serializable {
 	private static final long serialVersionUID = 1099950990443161867L;
@@ -34,8 +46,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 	
 	private Thread thread;
 	private JFrame frame;
-	private static Keyboard key;
-	private static Mouse mouse;
+	private Keyboard key;
+	private Mouse mouse;
 	private static Level level;
 	private Player player;
 	private boolean running = false;
@@ -47,7 +59,8 @@ public class Game extends Canvas implements Runnable, Serializable {
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-			
+	
+	//Default Constructor
 	private Game() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
@@ -120,36 +133,19 @@ public class Game extends Canvas implements Runnable, Serializable {
 		}
 		
 		try {
-			obj = reader.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
-		if(obj instanceof Keyboard) {
-			key = (Keyboard) obj;
-		}
-		
-		try {
-			obj = reader.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		if(obj instanceof Mouse) {
-			mouse = (Mouse) obj;
 		}
 		//End Load
 		
-		//player.addListeners(key, mouse);
 		if(found) {
 			State = STATE.GAME;
 			
 			inGameMenu = new InGameMenu(key, mouse);
 			titleMenu = new TitleMenu(key, mouse);
+			key = new Keyboard();
+			mouse = new Mouse();
 			
 			addKeyListener(key);
 			addMouseListener(mouse);
@@ -159,14 +155,6 @@ public class Game extends Canvas implements Runnable, Serializable {
 	
 	public static void saveState(String file) {
 		save.saveState(file);
-	}
-	
-	public static Keyboard getkeyboard() {
-		return key;
-	}
-	
-	public static Mouse getmouse() {
-		return mouse;
 	}
 	
 	public static int getWindowWidth() {

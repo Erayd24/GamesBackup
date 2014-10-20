@@ -8,8 +8,6 @@ import java.io.Serializable;
 
 import Game.Game;
 import Game.entity.mob.Player;
-import Game.input.Keyboard;
-import Game.input.Mouse;
 import Game.level.Level;
 
 public class Save implements Serializable {
@@ -27,8 +25,6 @@ public class Save implements Serializable {
 		//Objects set for saving
 		Player player = Game.getPlayer(0);
 		Level level = Game.getLevel();
-		Keyboard keyboard = Game.getkeyboard();
-		Mouse mouse = Game.getmouse();
 		
 		//Open existing file and write to it
 		try {
@@ -53,23 +49,6 @@ public class Save implements Serializable {
 		
 		try { //Level
 			obj_out.writeObject(level);
-			System.out.println("Save Successful");
-		} catch (Exception e) {
-			System.err.println("Save Failed.");
-			e.printStackTrace();
-		}
-		
-		try { //Keyboard
-			obj_out.writeObject(keyboard);
-			System.out.println("Save Successful");
-		} catch (Exception e) {
-			System.err.println("Save Failed.");
-			e.printStackTrace();
-		}
-		
-
-		try { //Mouse
-			obj_out.writeObject(mouse);
 			System.out.println("Save Successful");
 		} catch (Exception e) {
 			System.err.println("Save Failed.");
