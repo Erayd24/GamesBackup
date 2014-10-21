@@ -7,5 +7,6 @@ public enum OPTION {
 	STATUS,
 	SAVE,
 	NEWGAME,
-	NONE
+	NONE, 
+	LOADGAME
 }

@@ -121,7 +121,6 @@ public class InGameMenu extends Menu {
 			}
 		}
 		if(option == OPTION.STATUS) {
-			if(input.action);
 			if(input.back){
 				option = OPTION.NONE;
 			}
