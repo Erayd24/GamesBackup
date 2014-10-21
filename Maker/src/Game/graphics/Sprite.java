@@ -1,9 +1,7 @@
 package Game.graphics;
 
-import java.io.Serializable;
 
-public class Sprite implements Serializable {
-	private static final long serialVersionUID = 1433057551120829618L;
+public class Sprite {
 	
 	public final int SIZE; //Of a sprite - uniform
 	private int x,y;
@@ -26,6 +24,9 @@ public class Sprite implements Serializable {
 
 	//Particles
 	public static Sprite particle_normal = new Sprite(3, 0xaaaaaa);
+	
+	//Extras
+	public static Sprite menuArrow = new Sprite(32, 0, 0, SpriteSheet.extras);
 	
 	//Constructor - split up sheets in to individual sheets - used in Animated Sprites
 	protected Sprite(SpriteSheet sheet, int width, int height) {

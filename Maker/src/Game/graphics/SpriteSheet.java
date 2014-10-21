@@ -2,12 +2,10 @@ package Game.graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class SpriteSheet implements Serializable {
-	private static final long serialVersionUID = -4217054471243031610L;
+public class SpriteSheet {
 	
 	private String path; 
 	public final int spriteWidth;
@@ -19,6 +17,10 @@ public class SpriteSheet implements Serializable {
 	public static SpriteSheet environment_tiles = new SpriteSheet("/textures/environments/environments1.png", 256);
 	public static SpriteSheet weapons_armors = new SpriteSheet("/textures/weaponsArmors/weapons1.png", 256);
 	public static SpriteSheet characters = new SpriteSheet("/textures/characters/mainCharacter.png", 256);
+	public static SpriteSheet extras = new SpriteSheet("/textures/extras/extras1.png", 256);
+	
+	//Miscelaneouse sprite sheets for animation
+	public static SpriteSheet menuArrow = new SpriteSheet(extras, 0, 0, 1, 4, 32);
 	
 	//Player Sprite sheets for animation
 	public static SpriteSheet player_up = new SpriteSheet(characters, 0, 5, 1, 3, 32);

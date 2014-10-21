@@ -12,7 +12,6 @@ import Game.graphics.Screen;
 import Game.graphics.SpriteSheet;
 import Game.input.Keyboard;
 import Game.input.Mouse;
-import Game.level.Level;
 
 
 public class InGameMenu extends Menu {
@@ -20,12 +19,12 @@ public class InGameMenu extends Menu {
 	private Font font;
 	private Keyboard input;
 	
-	private int wait = 0;
+	private int wait;
 	private int width; //of the image
 	private int height;
 	private int xRect = 22;
 	private int yRect = 22;
-	private int location = 0;
+	private int location;
 	private int menuHeight = 134;
 	
 	private static OPTION option;

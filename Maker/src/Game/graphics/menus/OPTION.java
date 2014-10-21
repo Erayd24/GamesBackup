@@ -6,5 +6,6 @@ public enum OPTION {
 	MAGIC,
 	STATUS,
 	SAVE,
+	NEWGAME,
 	NONE
 }

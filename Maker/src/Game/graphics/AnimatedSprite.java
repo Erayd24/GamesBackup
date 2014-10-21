@@ -1,9 +1,6 @@
 package Game.graphics;
 
-import java.io.Serializable;
-
-public class AnimatedSprite extends Sprite implements Serializable{
-	private static final long serialVersionUID = -8374980017189548588L;
+public class AnimatedSprite extends Sprite{
 	
 	private int frame = 0;
 	private Sprite sprite;
