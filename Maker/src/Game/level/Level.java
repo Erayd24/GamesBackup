@@ -1,6 +1,5 @@
 package Game.level;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,8 +13,7 @@ import Game.graphics.Screen;
 import Game.level.tile.Tile;
 import Game.util.Vector2i;
 
-public class Level implements Serializable {
-	private static final long serialVersionUID = -7746026013477934275L;
+public class Level{
 	
 	protected int width, height;
 	protected int[] tilesInt;
@@ -44,7 +42,7 @@ public class Level implements Serializable {
 	}
 	
 	//Sort a list of nodes
-	private transient Comparator<Node> nodeSorter = new Comparator<Node>() {
+	private Comparator<Node> nodeSorter = new Comparator<Node>() {
 		public int compare(Node n0, Node n1) {
 			if(n1.fCost < n0.fCost)return 1; 
 			if(n1.fCost > n0.fCost)return -1; 

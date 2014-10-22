@@ -8,5 +8,5 @@ public enum OPTION {
 	SAVE,
 	NEWGAME,
 	NONE, 
-	LOADGAME
+	LOADGAME, CONTROLS
 }

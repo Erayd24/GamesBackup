@@ -57,7 +57,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 	private TitleMenu titleMenu;
 	private static STATE State;
 	private static Save save;
-	private static Data data;
+	public static Data data;
 	
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -72,6 +72,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 		key = new Keyboard();
 		mouse = new Mouse();
 		State = STATE.TITLE;
+		data = new Data();
 		
 		inGameMenu = new InGameMenu(key, mouse);
 		titleMenu = new TitleMenu(key, mouse);
@@ -81,13 +82,13 @@ public class Game extends Canvas implements Runnable, Serializable {
 		save = new Save();
 	}
 	
-	public static void newGame() {
+	public static void newGame(String file) {
 		level = Level.spawn;
-		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location
+		TileCoordinate playerSpawn = new TileCoordinate(9, 12); //Player spawn location, change in data and Game to change
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key, mouse); 
 		level.add(player);
-		data = new Data();
 		State = STATE.GAME;
+		saveState(file);
 	}
 	
 	//Loading old files
@@ -101,7 +102,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 		boolean found = false;
 		
 		try {
-			file_in = new FileInputStream(file);
+			file_in = new FileInputStream("/gamedata/saves/" + file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -24,7 +24,7 @@ public class Save implements Serializable {
 		
 		//Open existing file and write to it
 		try {
-			file_out = new FileOutputStream(file);
+			file_out = new FileOutputStream("/gamedata/saves/" + file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

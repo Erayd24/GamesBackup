@@ -26,6 +26,7 @@ public class InGameMenu extends Menu {
 	private int yRect = 22;
 	private int location;
 	private int menuHeight = 134;
+	private boolean saving = false;
 	
 	private static OPTION option;
 	public int[] pixels;
@@ -51,6 +52,7 @@ public class InGameMenu extends Menu {
 		if(option == OPTION.MAGIC) font.render(220, 35, -4, 0, "Magic", screen);
 		if(option == OPTION.STATUS) font.render(215, 35, -4, 0, "Status", screen);
 		if(option == OPTION.SAVE) font.render(200, 35, -4, 0, "Save Game", screen);
+		if(saving) font.render(132, 100, -3, 0, "Are you sure you\n\nwant to save the game?", screen);
 	}
 
 	public void setText(Screen screen) {
@@ -74,17 +76,17 @@ public class InGameMenu extends Menu {
 		
 		//Inputs for when a group hasn't been chosen
 		if(option == OPTION.NONE) {
-			if(input.down && wait > 5) {
+			if(input.down && wait > 8) {
 				if(yRect + 27 <= menuHeight) yRect += 27;
 				location++;
 				wait = 0;
 			}
-			if(input.up && wait > 5) {
-				if(yRect - 27 >= 22) yRect = yRect -= 27;
+			if(input.up && wait > 8) {
+				if(yRect - 27 >= 22) yRect -= 27;
 				location--;
 				wait = 0;
 			} 
-			if(input.action && wait > 5) {
+			if(input.enter && wait > 5) {
 				wait = 0;
 				if(location == 0) { 
 					option = OPTION.ITEMS;
@@ -126,10 +128,20 @@ public class InGameMenu extends Menu {
 			}
 		}
 		if(option == OPTION.SAVE) {
-			if(input.action && wait > 5) {
+			saving = true;
+			
+			if(input.enter && wait > 10 && saving) {
 				wait = 0;
-				Game.saveState("axoh17");
+				Game.saveState(Game.data.getFileName());
+				saving = false;
+				option = OPTION.NONE;
 			}
+			
+			if(input.back && wait > 5 && saving) {
+				saving = false;
+				option = OPTION.NONE;
+			}
+			
 			if(input.back){
 				option = OPTION.NONE;
 			}
