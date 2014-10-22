@@ -10,6 +10,7 @@ public class Data implements Serializable {
 	private int playerX = 16 * 9; //Initial player spawn location to the start of the game
 	private int playerY = 16 * 12;
 	private String fileName;
+	private int fileLocation;
 	
 	public void update(Level level) {
 		this.playerX = level.getClientPlayer().getX();
@@ -31,5 +32,9 @@ public class Data implements Serializable {
 	
 	public String getFileName() {
 		return fileName;
+	}
+	
+	public int getfileLocation() {
+		return fileLocation;
 	}
 }
