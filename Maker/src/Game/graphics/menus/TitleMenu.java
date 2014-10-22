@@ -115,10 +115,20 @@ public class TitleMenu extends Menu {
 		if(option == OPTION.NEWGAME || option == OPTION.LOADGAME) {
 			//Inputting a file name and starting a new Game
 			if(option == OPTION.NEWGAME) { 
-				if(input.enter && wait > 10 && fileName.length() == 0 && !getFileName && location + 1 > files.length) {
-					x += 10;
-					wait = 0;
-					getFileName = true;
+				if(files != null) { //So you cant overwrite older files
+					if(input.enter && wait > 10 && fileName.length() == 0 && !getFileName && location + 1 > files.length) {
+						x += 10;
+						wait = 0;
+						getFileName = true;
+					}
+				}
+				
+				if(files == null) { //So you can make the first file without problems
+					if(input.enter && wait > 10 && fileName.length() == 0 && !getFileName) {
+						x += 10;
+						wait = 0;
+						getFileName = true;
+					}
 				}
 			
 				if(getFileName) {
@@ -133,12 +143,12 @@ public class TitleMenu extends Menu {
 						fileName = "";
 						getFileName = false;
 					}
-					if(input.back && fileName.length() > 0 && wait > 3) {
+					if(input.back && fileName.length() > 0 && wait > 5) {
 						wait = 0;
 						fileName = fileName.substring(0, fileName.length() - 1);
 					}
 					
-					if(wait > 4) {
+					if(wait > 5) {
 						wait = 0;
 						if(fileName.length() < 10) { //set a ten character maximum filename
 							if(typing.checkInput() != null) fileName += typing.checkInput();
@@ -169,16 +179,17 @@ public class TitleMenu extends Menu {
 				}
 				
 				//Deleting existing files
-				if(input.d && wait > 5){ 
+				if(input.d && wait > 5 && files != null){ 
 					wait = 0;
-					deleting = true;
+					if(files.length >= location + 1) {
+						deleting = true;
+					}
 				}
 				
 				//If your sure you want to delete the file
 				if(deleting) {
 					if(input.y && wait > 5) {
 						wait = 0;
-						System.out.println("inside");
 						if(files.length == 3) {
 							checkFile = new File("/gamedata/saves/" + files[location]);
 							checkFile.delete();
@@ -225,8 +236,10 @@ public class TitleMenu extends Menu {
 		if(option != OPTION.NONE && option != OPTION.CONTROLS) {
 			xp = 100;
 			yp = 82;
-			for(int i = 0; i < files.length; i++) { //Render the saved files names
-				font.render(xp, yp + i * 40, files[i], screen);
+			if(files != null) {
+				for(int i = 0; i < files.length; i++) { //Render the saved files names
+					font.render(xp, yp + i * 40, files[i], screen);
+				}
 			}
 		}
 		sprite = menuArrow.getSprite();
