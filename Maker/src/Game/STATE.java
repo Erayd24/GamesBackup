@@ -3,5 +3,6 @@ package Game;
 public enum STATE {
 	INGAMEMENU,
 	GAME,
-	TITLE
+	TITLE,
+	PAUSE
 };

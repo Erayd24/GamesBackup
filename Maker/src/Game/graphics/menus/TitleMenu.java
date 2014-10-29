@@ -143,12 +143,12 @@ public class TitleMenu extends Menu {
 						fileName = "";
 						getFileName = false;
 					}
-					if(input.back && fileName.length() > 0 && wait > 5) {
+					if(input.back && fileName.length() > 0 && wait > 4) {
 						wait = 0;
 						fileName = fileName.substring(0, fileName.length() - 1);
 					}
 					
-					if(wait > 5) {
+					if(wait > 4) {
 						wait = 0;
 						if(fileName.length() < 10) { //set a ten character maximum filename
 							if(typing.checkInput() != null) fileName += typing.checkInput();

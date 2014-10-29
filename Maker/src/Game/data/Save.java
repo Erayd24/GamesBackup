@@ -25,28 +25,29 @@ public class Save implements Serializable {
 		//Open existing file and write to it
 		try {
 			file_out = new FileOutputStream("/gamedata/saves/" + file);
+			try {
+				obj_out = new ObjectOutputStream(file_out);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			try { //Data
+				obj_out.writeObject(data);
+				System.out.println("Save Successful");
+			} catch (Exception e) {
+				System.err.println("Save Failed.");
+				e.printStackTrace();
+			}
+			
+			try {
+				obj_out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		try {
-			obj_out = new ObjectOutputStream(file_out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
-		try { //Data
-			obj_out.writeObject(data);
-			System.out.println("Save Successful");
-		} catch (Exception e) {
-			System.err.println("Save Failed.");
-			e.printStackTrace();
-		}
-		
-		try {
-			obj_out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

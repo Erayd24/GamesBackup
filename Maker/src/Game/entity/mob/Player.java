@@ -87,6 +87,11 @@ public class Player extends Mob {
 				walking = false;
 			}
 			
+			if(input.escape && wait > 10) { //Pause menu
+				wait = 0;
+				Game.changeState(STATE.PAUSE);
+			}
+			
 			if(input.inventory && wait > 10) { //Inventory key is 'i'
 				Game.changeState(STATE.INGAMEMENU);
 				wait = 0;
@@ -117,7 +122,7 @@ public class Player extends Mob {
 		//Render the player based on its location
 		public void render(Screen screen) {
 			sprite = animSprite.getSprite();
-			screen.renderMob(x - 16, y - 16, sprite);
+			screen.renderMob(x - 16, y - 28, sprite);
 		}
 
 		public Keyboard getInput() {

@@ -1,14 +1,12 @@
 package Game.entity;
 
-import java.io.Serializable;
 import java.util.Random;
 
 import Game.graphics.Screen;
 import Game.graphics.Sprite;
 import Game.level.Level;
 
-public class Entity implements Serializable{
-	private static final long serialVersionUID = 7053942917105910952L;
+public class Entity {
 	
 		//Things that move or "exist"
 		protected int x, y; //Location

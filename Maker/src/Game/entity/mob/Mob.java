@@ -6,7 +6,6 @@ import Game.entity.projectile.Projectile;
 import Game.graphics.Screen;
 
 public abstract class Mob extends Entity{
-	private static final long serialVersionUID = -244893243866263221L;
 	
 		protected boolean moving = false;
 		protected boolean walking = false;

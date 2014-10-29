@@ -62,7 +62,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	
-	//Default Constructor
+	//Constructor -Start game but dont initialize anything game play related
 	private Game() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
@@ -72,14 +72,14 @@ public class Game extends Canvas implements Runnable, Serializable {
 		key = new Keyboard();
 		mouse = new Mouse();
 		State = STATE.TITLE;
-		data = new Data();
-		
+		//frame.add(this);
 		inGameMenu = new InGameMenu(key, mouse);
 		titleMenu = new TitleMenu(key, mouse);
 		addKeyListener(key);
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);	
 		save = new Save();
+		data = new Data();
 	}
 	
 	public static void newGame(String file) {
@@ -206,6 +206,7 @@ public class Game extends Canvas implements Runnable, Serializable {
 		}
 	}
 	
+	//Call all objects that need to be adjusted here
 	public void update() {
 		if(State == STATE.TITLE){
 			titleMenu.update();
@@ -218,9 +219,13 @@ public class Game extends Canvas implements Runnable, Serializable {
 			inGameMenu.update();
 			data.update(level);
 		}
+		if(State == STATE.PAUSE){
+			
+		}
 		key.update();
 	}
 	
+	//Call all objects to be rendered here
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
